@@ -1,0 +1,52 @@
+name: fast_food_cafe_grill
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  intro_slider: ^3.0.2
+  carousel_slider: ^4.0.0
+  provider: ^6.0.1
+  curved_nav_bar: ^0.0.2
+  flutter_image_slideshow: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - images/
+  #   - images/a_dot_ham.jpeg
+
+ 
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-Bold.ttf
+        - asset: fonts/OpenSans-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+    - family: Quicksand
+      fonts:
+        - asset: fonts/Quicksand-Bold.ttf
+        - asset: fonts/Quicksand-Regular.ttf
+          weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
