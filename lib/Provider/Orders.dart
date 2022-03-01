@@ -31,5 +31,6 @@ class Order extends ChangeNotifier {
           products: cartProducts,
           dateTime: DateTime.now(),
         ));
+    notifyListeners();
   }
 }

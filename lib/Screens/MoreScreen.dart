@@ -1,3 +1,4 @@
+import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
 import 'package:flutter/material.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -22,21 +23,21 @@ class MoreScreen extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         color: Colors.white70,
         child: Column(
-          children: const [
-            SizedBox(
+          children: [
+            const SizedBox(
               height: 5,
             ),
-            ListTile(
+            const ListTile(
                 leading: Icon(Icons.location_on),
                 title: Text(
                   'Store Location',
                   style: textStyle,
                 ),
                 trailing: Icon(Icons.navigate_next)),
-            Divider(
+            const Divider(
               height: 1,
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(Icons.email),
               title: Text(
                 'Contact us',
@@ -44,44 +45,59 @@ class MoreScreen extends StatelessWidget {
               ),
               trailing: Icon(Icons.navigate_next),
             ),
-            Divider(
+            const Divider(
               height: 1,
             ),
-            ListTile(
+            const ListTile(
               title: Text(
                 'About Us',
                 style: textStyle,
               ),
             ),
-            Divider(
+            const Divider(
               height: 1,
             ),
-            ListTile(
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MenuUpdateScreen()));
+              },
+              child: const ListTile(
+                title: Text(
+                  'Menu Edit',
+                  style: textStyle,
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+            ),
+            const ListTile(
               title: Text(
                 'Privacy Policy',
                 style: textStyle,
               ),
             ),
-            Divider(
+            const Divider(
               height: 1,
             ),
-            ListTile(
+            const ListTile(
               title: Text(
                 'Terms and Conditions',
                 style: textStyle,
               ),
             ),
-            Divider(
+            const Divider(
               height: 1,
             ),
-            ListTile(
+            const ListTile(
               title: Text(
                 'Login',
                 style: textStyle,
               ),
               trailing: Icon(Icons.login),
             ),
-            Divider(
+            const Divider(
               height: 1,
             ),
           ],

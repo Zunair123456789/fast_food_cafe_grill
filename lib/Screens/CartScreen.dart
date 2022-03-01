@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, file_names
 import 'package:fast_food_cafe_grill/Provider/Cart.dart' show Cart;
+import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:fast_food_cafe_grill/Widget/cart_item.dart' as ci;
 import 'package:fast_food_cafe_grill/Widget/cart_item.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,13 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Order>(context, listen: false).addOrder(
+                        cart.items.values.toList(),
+                        cart.totalAmount,
+                      );
+                      cart.clear();
+                    },
                     child: const Text(
                       'ORDER NOW',
                       style: TextStyle(
