@@ -1,9 +1,8 @@
 import 'package:fast_food_cafe_grill/Provider/Cart.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
+import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/ItemDetailScreen.dart';
-import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
-import 'package:fast_food_cafe_grill/Widget/UserMenuEdit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +55,7 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         ItemDetailScreen.routeName: (ctx) => const ItemDetailScreen(),
+        EditMenuScreen.routeName: (ctx) => EditMenuScreen(),
       },
     );
   }

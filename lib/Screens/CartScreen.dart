@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_final_fields, file_names
 import 'package:fast_food_cafe_grill/Provider/Cart.dart' show Cart;
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
-import 'package:fast_food_cafe_grill/Widget/cart_item.dart' as ci;
 import 'package:fast_food_cafe_grill/Widget/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

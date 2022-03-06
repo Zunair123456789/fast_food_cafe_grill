@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "908181314191",
+    "project_id": "fast-food-cafe-and-grill",
+    "storage_bucket": "fast-food-cafe-and-grill.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908181314191:android:7c0c69560d0d9eab1e6efa",
+        "android_client_info": {
+          "package_name": "com.example.fast_food_cafe_grill"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908181314191-637989pjck629b45vor496qqfmbp4m0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fast_food_cafe_grill",
+            "certificate_hash": "6821280d1386fdeb2dee7434e38ef0fa3300ef59"
+          }
+        },
+        {
+          "client_id": "908181314191-98n98ro2rcao9j73e1971lkmhkd9rm4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv7cIfyVohYcyxa930y8DXw8yBt55hOuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908181314191-98n98ro2rcao9j73e1971lkmhkd9rm4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
