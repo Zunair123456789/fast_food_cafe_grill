@@ -34,6 +34,7 @@ class _MenuScreenState extends State<MenuScreen> {
               const MenuWithType('Sharing'),
               const MenuWithType('Mid Night Deals'),
               const MenuWithType('Snacks'),
+
               const SizedBox(
                 height: 10,
               ),

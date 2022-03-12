@@ -6,7 +6,6 @@ import 'package:fast_food_cafe_grill/dummyData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // ignore: implementation_imports
-import 'package:provider/src/provider.dart';
 
 class MenuWithType extends StatelessWidget {
   final String menuName;

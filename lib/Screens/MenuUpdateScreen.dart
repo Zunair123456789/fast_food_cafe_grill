@@ -10,6 +10,7 @@ class MenuUpdateScreen extends StatelessWidget {
     final menuData = Provider.of<MenusProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Your Menus'),
         actions: [
           IconButton(

@@ -1,6 +1,5 @@
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
-import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +11,13 @@ class UserMenuEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return ListTile( 
       title: Text(
         title,
         overflow: TextOverflow.fade,
       ),
       leading: CircleAvatar(
+        backgroundColor: Theme.of(context).primaryColor,
         backgroundImage: NetworkImage(imageUrl),
       ),
       trailing: Container(
