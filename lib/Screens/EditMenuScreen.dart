@@ -2,6 +2,7 @@ import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 
 class EditMenuScreen extends StatefulWidget {
   static String routeName = '/EditMenuScreen';
@@ -90,10 +91,11 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
       _isLoading = true;
     });
     if (_editedMenu.id != '') {
-      Provider.of<MenusProvider>(context, listen: false)
+      await Provider.of<MenusProvider>(context, listen: false)
           .updateMenu(_editedMenu.id, _editedMenu);
       setState(() {
         _isLoading = false;
+        Navigator.of(context).pop();
       });
     } else {
       try {
@@ -115,14 +117,25 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                 ],
               );
             });
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
+        // }
+        // finally {
+        //   setState(() {
+        //     _isLoading = false;
+        //   });
+        _isLoading = false;
         Navigator.of(context).pop();
       }
     }
   }
+
+  List _listOfCatogries = [
+    'Everyday Value',
+    'Make it a Meal',
+    'Signature Box',
+    'Sharing',
+    'Mid Night Deals',
+    'Snacks'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +304,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   )),
             ),

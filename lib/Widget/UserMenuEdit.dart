@@ -11,7 +11,7 @@ class UserMenuEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile( 
+    return ListTile(
       title: Text(
         title,
         overflow: TextOverflow.fade,
@@ -55,6 +55,13 @@ class UserMenuEdit extends StatelessWidget {
                                             listen: false)
                                         .deleteMenuItem(id);
                                     Navigator.of(ctx).pop();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Item is successfully deleted'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
                                   },
                                   child: const Text('Yes')),
                             ],

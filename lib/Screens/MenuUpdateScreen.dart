@@ -7,6 +7,11 @@ import 'package:provider/provider.dart';
 class MenuUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future<void> _refreshMenu() async {
+      await Provider.of<MenusProvider>(context, listen: false)
+          .fetchAndSetProduct();
+    }
+
     final menuData = Provider.of<MenusProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -21,18 +26,21 @@ class MenuUpdateScreen extends StatelessWidget {
               icon: const Icon(Icons.add))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: menuData.listOfMeal.length,
-          itemBuilder: (_, i) => Column(
-            children: [
-              UserMenuEdit(
-                  menuData.listOfMeal[i].id,
-                  menuData.listOfMeal[i].title,
-                  menuData.listOfMeal[i].imageUrl),
-              const Divider(),
-            ],
+      body: RefreshIndicator(
+        onRefresh: _refreshMenu,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: menuData.listOfMeal.length,
+            itemBuilder: (_, i) => Column(
+              children: [
+                UserMenuEdit(
+                    menuData.listOfMeal[i].id,
+                    menuData.listOfMeal[i].title,
+                    menuData.listOfMeal[i].imageUrl),
+                const Divider(),
+              ],
+            ),
           ),
         ),
       ),

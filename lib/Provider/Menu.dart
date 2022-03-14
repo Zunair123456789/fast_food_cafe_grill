@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_final_fields, file_names
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends ChangeNotifier {
@@ -18,8 +19,18 @@ class Menu extends ChangeNotifier {
     required this.catogries,
     this.isFavorite = false,
   });
-  void toggleFavoriteStatus() {
+  Future<void> toggleFavoriteStatus() async {
+    final oldStatus = isFavorite;
+
     isFavorite = !isFavorite;
     notifyListeners();
+
+    final hel = FirebaseFirestore.instance.collection('menuItem').doc(id);
+    try {
+      await hel.update({'isFavorite': isFavorite});
+    } catch (error) {
+      isFavorite = oldStatus;
+      notifyListeners();
+    }
   }
 }
