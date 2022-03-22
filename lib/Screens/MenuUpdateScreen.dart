@@ -20,6 +20,7 @@ class MenuUpdateScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
+                menuData.emptyTempList();
                 Navigator.of(context)
                     .pushNamed(EditMenuScreen.routeName, arguments: '');
               },

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
+import 'package:fast_food_cafe_grill/Widget/CategoriesSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_tags/flutter_tags.dart';
@@ -17,13 +20,14 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
+
   // ignore: prefer_final_fields
   var _editedMenu = Menu(
     id: '',
     title: '',
     imageUrl: '',
     price: 0,
-    catogries: [],
+    categories: [],
     description: '',
   );
   var initValue = {
@@ -34,10 +38,12 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
   };
   var _isInit = true;
   var _isLoading = false;
+  var _isExpanded = false;
 
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
+
     super.initState();
   }
 
@@ -53,8 +59,12 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
           'title': _editedMenu.title,
           'description': _editedMenu.description,
           'price': _editedMenu.price.toString(),
+
           // 'imageUrl': _editedMenu.imageUr
         };
+        print(_editedMenu.title);
+        print(_editedMenu.categories);
+        Provider.of<MenusProvider>(context).tempList = _editedMenu.categories;
         _imageUrlController.text = _editedMenu.imageUrl;
       }
     }
@@ -83,9 +93,34 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
 
   Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
+    final data =
+        await Provider.of<MenusProvider>(context, listen: false).tempList;
+
+    print(data);
     if (!isValid) {
       return;
     }
+
+    if (data.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text('Categories Check'),
+              content: const Text('Please add some categories '),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      return;
+                    },
+                    child: const Text('Okay'))
+              ],
+            );
+          });
+      return;
+    }
+
     _form.currentState!.save();
     setState(() {
       _isLoading = true;
@@ -122,20 +157,21 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
         //   setState(() {
         //     _isLoading = false;
         //   });
-        _isLoading = false;
-        Navigator.of(context).pop();
+
       }
+      _isLoading = false;
+      Navigator.of(context).pop();
     }
   }
 
-  List _listOfCatogries = [
-    'Everyday Value',
-    'Make it a Meal',
-    'Signature Box',
-    'Sharing',
-    'Mid Night Deals',
-    'Snacks'
-  ];
+  // final _listOfCatogries = [
+  //   'Everyday Value',
+  //   'Make it a Meal',
+  //   'Signature Box',
+  //   'Sharing',
+  //   'Mid Night Deals',
+  //   'Snacks'
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +209,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                               imageUrl: _editedMenu.imageUrl,
                               price: _editedMenu.price,
                               description: _editedMenu.description,
-                              catogries: _editedMenu.catogries,
+                              categories: _editedMenu.categories,
                               isFavorite: _editedMenu.isFavorite);
                         },
                         validator: (value) {
@@ -197,7 +233,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                               imageUrl: _editedMenu.imageUrl,
                               price: double.parse(value!),
                               description: _editedMenu.description,
-                              catogries: _editedMenu.catogries,
+                              categories: _editedMenu.categories,
                               isFavorite: _editedMenu.isFavorite);
                         },
                         validator: (value) {
@@ -227,7 +263,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                               imageUrl: _editedMenu.imageUrl,
                               price: _editedMenu.price,
                               description: value.toString(),
-                              catogries: _editedMenu.catogries,
+                              categories: _editedMenu.categories,
                               isFavorite: _editedMenu.isFavorite);
                         },
                         validator: (value) {
@@ -282,7 +318,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                                     imageUrl: value.toString(),
                                     price: _editedMenu.price,
                                     description: _editedMenu.description,
-                                    catogries: _editedMenu.catogries,
+                                    categories: _editedMenu.categories,
                                     isFavorite: _editedMenu.isFavorite);
                               },
                               validator: (value) {
@@ -305,6 +341,52 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                           ),
                         ],
                       ),
+//..........................................................................................................................................
+
+                      ListTile(
+                        title: const Text('Categories'),
+                        subtitle: const Text(
+                          'Select the Categories',
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isExpanded = !_isExpanded;
+                            });
+                          },
+                          icon: Icon(
+                            _isExpanded ? Icons.expand_less : Icons.expand_more,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      _isExpanded
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 0),
+                              height: min(
+                                  Provider.of<MenusProvider>(context)
+                                              .listOfCategories
+                                              .length *
+                                          20.0 +
+                                      10,
+                                  100.0),
+                              child: ListView.builder(
+                                  itemCount: Provider.of<MenusProvider>(context,
+                                          listen: false)
+                                      .listOfCategories
+                                      .length,
+                                  itemBuilder: (ctx, index) {
+                                    return CategoriesSelection(
+                                        category: Provider.of<MenusProvider>(
+                                                context,
+                                                listen: false)
+                                            .listOfCategories[index]);
+                                  }),
+                            )
+                          : Container()
+//........................................................................................................................
                     ],
                   )),
             ),

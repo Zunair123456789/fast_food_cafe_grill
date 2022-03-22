@@ -66,7 +66,7 @@ class MenusProvider extends ChangeNotifier {
   ];
 
   // ignore: prefer_final_fields
-  List _listOfCatogries = [
+  List _listOfCategories = [
     'Everyday Value',
     'Make it a Meal',
     'Signature Box',
@@ -75,12 +75,29 @@ class MenusProvider extends ChangeNotifier {
     'Snacks'
   ];
 
+  List tempList = [];
+
+  void addDataToTemop(String category) {
+    if (tempList.contains(category)) {
+      return;
+    } else {
+      tempList.add(category);
+    }
+  }
+
+  void emptyTempList() {
+    tempList.clear();
+  }
+
+  List<String> get listOfCategories {
+    return [..._listOfCategories];
+  }
+
   List<Menu> get listOfMeal {
     return [..._listOfMeals];
   }
 
   Menu findById(String id) {
-    // print(id);
     return _listOfMeals.firstWhere((pro) => pro.id == id);
   }
 
@@ -97,14 +114,14 @@ class MenusProvider extends ChangeNotifier {
 
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(
-          id: menuData.id,
-          title: menuData['title'],
-          imageUrl: menuData['imageUrl'],
-          price: menuData['price'],
-          description: menuData['description'],
-          isFavorite: menuData['isFavorite'],
-          catogries: [],
-        ));
+            id: menuData.id,
+            title: menuData['title'],
+            imageUrl: menuData['imageUrl'],
+            price: menuData['price'],
+            description: menuData['description'],
+            isFavorite: menuData['isFavorite'],
+            categories: menuData['categories']));
+        // print(menuData['categories']);
       });
       // print(loadedMenu.first.id);
       _listOfMeals = loadedMenu;
@@ -122,14 +139,15 @@ class MenusProvider extends ChangeNotifier {
         'imageUrl': menu.imageUrl,
         'price': menu.price,
         'description': menu.description,
-        'isFavorite': menu.isFavorite
+        'isFavorite': menu.isFavorite,
+        'categories': tempList,
       });
       final newMenuItem = Menu(
           id: response.id,
           title: menu.title,
           imageUrl: menu.imageUrl,
           price: menu.price,
-          catogries: menu.catogries,
+          categories: tempList,
           description: menu.description);
       _listOfMeals.add(newMenuItem);
 
@@ -151,6 +169,7 @@ class MenusProvider extends ChangeNotifier {
         'imageUrl': newMenu.imageUrl,
         'price': newMenu.price,
         'description': newMenu.description,
+        'categories': tempList
       });
 
       _listOfMeals[menuIndex] = newMenu;

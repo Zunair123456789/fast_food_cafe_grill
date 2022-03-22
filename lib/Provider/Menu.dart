@@ -8,7 +8,7 @@ class Menu extends ChangeNotifier {
   final String imageUrl;
   final double price;
   final String description;
-  final List catogries;
+  final List categories;
   bool isFavorite;
   Menu({
     required this.id,
@@ -16,7 +16,7 @@ class Menu extends ChangeNotifier {
     required this.imageUrl,
     required this.price,
     required this.description,
-    required this.catogries,
+    required this.categories,
     this.isFavorite = false,
   });
   Future<void> toggleFavoriteStatus() async {

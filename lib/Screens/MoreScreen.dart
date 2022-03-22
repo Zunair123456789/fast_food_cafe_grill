@@ -1,4 +1,5 @@
 import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/OrderScreen.dart';
 import 'package:flutter/material.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -65,6 +66,21 @@ class MoreScreen extends StatelessWidget {
               child: const ListTile(
                 title: Text(
                   'Menu Edit',
+                  style: textStyle,
+                ),
+              ),
+            ),
+            const Divider(
+              height: 1,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => OrderScreen()));
+              },
+              child: const ListTile(
+                title: Text(
+                  'Order Menu',
                   style: textStyle,
                 ),
               ),

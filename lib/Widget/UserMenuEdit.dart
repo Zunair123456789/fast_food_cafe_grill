@@ -26,6 +26,8 @@ class UserMenuEdit extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
+                  Provider.of<MenusProvider>(context, listen: false)
+                      .emptyTempList();
                   Navigator.of(context)
                       .pushNamed(EditMenuScreen.routeName, arguments: id);
                 },
