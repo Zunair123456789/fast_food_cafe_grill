@@ -46,7 +46,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      TextButton(onPressed: () {}, child: Text('Check button')),
+
                       //.......................................................................................//////.....
                       const MenuWithType('Everyday Value'),
                       const MenuWithType('Make it a Meal'),

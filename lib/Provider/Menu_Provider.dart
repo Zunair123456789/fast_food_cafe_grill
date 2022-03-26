@@ -101,7 +101,7 @@ class MenusProvider extends ChangeNotifier {
     final hello = [
       ..._listOfMeals.where((element) => element.categories.contains(category))
     ];
-    print(hello);
+    // print(hello);
     return hello;
   }
 
@@ -140,9 +140,9 @@ class MenusProvider extends ChangeNotifier {
   }
 
   Future<void> addMenu(Menu menu) async {
-    final hel = FirebaseFirestore.instance.collection('menuItem');
+    final firebase = FirebaseFirestore.instance.collection('menuItem');
     try {
-      final response = await hel.add({
+      final response = await firebase.add({
         'title': menu.title,
         'imageUrl': menu.imageUrl,
         'price': menu.price,
@@ -171,8 +171,9 @@ class MenusProvider extends ChangeNotifier {
     final menuIndex =
         _listOfMeals.indexWhere((element) => element.id == menuId);
     if (menuIndex >= 0) {
-      final hel = FirebaseFirestore.instance.collection('menuItem').doc(menuId);
-      await hel.update({
+      final firebase =
+          FirebaseFirestore.instance.collection('menuItem').doc(menuId);
+      await firebase.update({
         'title': newMenu.title,
         'imageUrl': newMenu.imageUrl,
         'price': newMenu.price,
@@ -190,12 +191,13 @@ class MenusProvider extends ChangeNotifier {
   }
 
   void deleteMenuItem(String menuId) {
-    final hel = FirebaseFirestore.instance.collection('menuItem').doc(menuId);
+    final firebase =
+        FirebaseFirestore.instance.collection('menuItem').doc(menuId);
     final existingProductIndex =
         _listOfMeals.indexWhere((element) => element.id == menuId);
     var existingProduct = _listOfMeals[existingProductIndex];
 
-    hel.delete().then((response) {
+    firebase.delete().then((response) {
       _listOfMeals.removeAt(existingProductIndex);
       notifyListeners();
       existingProduct.dispose();

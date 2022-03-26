@@ -31,7 +31,7 @@ class MenuWithType extends StatelessWidget {
                 listItem.length,
                 (i) => ChangeNotifierProvider.value(
                   value: listItem[i],
-                  child: MenuTile(menuName),
+                  child: MenuTile(),
                 ),
               )
             ],

@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MenuTile extends StatelessWidget {
-  final String menu;
-  MenuTile(this.menu);
+  // final String menu;
+  // MenuTile(this.menu);
   // ignore: use_key_in_widget_constructors
   // MenuTile(
   //   this.id,
