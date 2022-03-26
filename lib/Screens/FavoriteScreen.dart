@@ -20,7 +20,7 @@ class FavoiteScreen extends StatelessWidget {
         itemCount: listItem.length,
         itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
           value: listItem[i],
-          child: MenuTile(),
+          child: MenuTile('s'),
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

@@ -97,6 +97,14 @@ class MenusProvider extends ChangeNotifier {
     return [..._listOfMeals];
   }
 
+  List<Menu> listByCategory(String category) {
+    final hello = [
+      ..._listOfMeals.where((element) => element.categories.contains(category))
+    ];
+    print(hello);
+    return hello;
+  }
+
   Menu findById(String id) {
     return _listOfMeals.firstWhere((pro) => pro.id == id);
   }

@@ -33,4 +33,8 @@ class Menu extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+// void menuByCategories(String menu){
+//   return
+// }
 }

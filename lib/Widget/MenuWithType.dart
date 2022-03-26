@@ -2,7 +2,6 @@
 
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Widget/MenuTile.dart';
-import 'package:fast_food_cafe_grill/dummyData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // ignore: implementation_imports
@@ -14,7 +13,7 @@ class MenuWithType extends StatelessWidget {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(
         fontFamily: 'Quicksand', fontWeight: FontWeight.bold, fontSize: 20);
-    var listItem = Provider.of<MenusProvider>(context).listOfMeal;
+    var listItem = Provider.of<MenusProvider>(context).listByCategory(menuName);
     // var listItem2 = context.read<MenusProvider>().listOfMeal;
     return Column(
       children: [
@@ -32,11 +31,7 @@ class MenuWithType extends StatelessWidget {
                 listItem.length,
                 (i) => ChangeNotifierProvider.value(
                   value: listItem[i],
-                  child: MenuTile(
-                      // listItem[i].id,
-                      // listItem[i].title,
-                      // listItem[i].imageUrl,
-                      ),
+                  child: MenuTile(menuName),
                 ),
               )
             ],

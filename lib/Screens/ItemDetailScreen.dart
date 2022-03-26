@@ -61,6 +61,13 @@ class ItemDetailScreen extends StatelessWidget {
                 listItem.title,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
+              Container(
+                height: 200,
+                child: ListView.builder(
+                    itemCount: listItem.categories.length,
+                    itemBuilder: (ctx, index) =>
+                        Text(listItem.categories[index])),
+              )
             ],
           ),
         ),
