@@ -2,9 +2,9 @@
 
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Screens/ItemDetailScreen.dart';
-import 'package:fast_food_cafe_grill/dummyData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
 import '../Widget/MenuWithType.dart';

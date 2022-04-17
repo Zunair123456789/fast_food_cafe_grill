@@ -41,7 +41,7 @@ class MenuTile extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: SizedBox(
               height: 160,
-              width: 150,
+              width: 160,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

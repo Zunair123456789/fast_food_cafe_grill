@@ -31,6 +31,7 @@ class Order extends ChangeNotifier {
     if (extractedData.isEmpty) {
       return;
     }
+    // ignore: avoid_function_literals_in_foreach_calls
     extractedData.forEach((orderData) {
       loadedOrder.add(
         OrderItem(

@@ -62,8 +62,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
 
           // 'imageUrl': _editedMenu.imageUr
         };
-        print(_editedMenu.title);
-        print(_editedMenu.categories);
+
         Provider.of<MenusProvider>(context).tempList = _editedMenu.categories;
         _imageUrlController.text = _editedMenu.imageUrl;
       }
@@ -96,7 +95,6 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
     final data =
         await Provider.of<MenusProvider>(context, listen: false).tempList;
 
-    print(data);
     if (!isValid) {
       return;
     }

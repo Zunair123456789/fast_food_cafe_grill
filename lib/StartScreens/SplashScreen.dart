@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_final_fields, file_names
 import 'package:fast_food_cafe_grill/NavBar.dart';
+import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fast_food_cafe_grill/Screens/HomeScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -48,8 +52,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void onDonePress() {
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (ctx) => const NavBar()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (ctx) => Consumer<Auth>(
+                builder: (ctx, auth, _) =>
+                    auth.isAuth ? const NavBar() : AuthScreen())),
+        (route) => false);
 
     // Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
     //   return const NavBar();

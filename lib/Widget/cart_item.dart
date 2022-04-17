@@ -73,7 +73,8 @@ class CartItem extends StatelessWidget {
             subtitle: Text(
               'Total: \$${price * quantity}',
             ),
-            trailing: Text('$quantity X'),
+            trailing: Consumer<Cart>(
+                builder: (ctx, cart, child) => Text('$quantity X')),
           ),
         ),
       ),

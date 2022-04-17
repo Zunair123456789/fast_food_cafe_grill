@@ -25,6 +25,14 @@ class Cart extends ChangeNotifier {
     return _items == null ? 0 : _items.length;
   }
 
+  int itemQuantity(String itemId) {
+    if (_items[itemId] == null) {
+      return 0;
+    } else {
+      return _items[itemId]!.quantity;
+    }
+  }
+
   double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {

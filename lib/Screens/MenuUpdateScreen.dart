@@ -1,9 +1,12 @@
+// ignore_for_file: file_names
+
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
 import 'package:fast_food_cafe_grill/Widget/UserMenuEdit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: use_key_in_widget_constructors
 class MenuUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
