@@ -1,4 +1,4 @@
-# fast_food_cafe_grill
+# Fast Food Cafe Grill
 
 A new Flutter project.
 
