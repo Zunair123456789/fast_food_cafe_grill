@@ -1,4 +1,5 @@
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,8 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
             )),
       ),
-      home: const SplashScreen(),
+      home: MenuUpdateScreen(),
+      // const SplashScreen(),
       routes: {
         ItemDetailScreen.routeName: (ctx) => const ItemDetailScreen(),
         EditMenuScreen.routeName: (ctx) => EditMenuScreen(),

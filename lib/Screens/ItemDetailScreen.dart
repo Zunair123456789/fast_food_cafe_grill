@@ -29,7 +29,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
         fontFamily: 'Quicksand', fontWeight: FontWeight.w500, fontSize: 30);
     return Scaffold(
       appBar: AppBar(
-        // toolbarHeight: 0,c
+        // toolbarHeight: 0,
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
         automaticallyImplyLeading: false,

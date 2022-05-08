@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fast_food_cafe_grill/ImagePicker/MenuImagePicker.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Widget/CategoriesSelection.dart';
@@ -339,6 +340,9 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                           ),
                         ],
                       ),
+
+                      MenuImagePicker(),
+
 //..........................................................................................................................................
 
                       ListTile(
@@ -369,7 +373,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                                               .length *
                                           20.0 +
                                       10,
-                                  100.0),
+                                  123.0),
                               child: ListView.builder(
                                   itemCount: Provider.of<MenusProvider>(context,
                                           listen: false)
