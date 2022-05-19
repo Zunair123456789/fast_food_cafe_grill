@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'dart:math';
-
-import 'package:fast_food_cafe_grill/ImagePicker/MenuImagePicker.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Widget/CategoriesSelection.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_tags/flutter_tags.dart';
 
@@ -18,7 +18,7 @@ class EditMenuScreen extends StatefulWidget {
 class _EditMenuScreenState extends State<EditMenuScreen> {
   final _priceFocusNode = FocusNode();
   final _discriptionFocusNode = FocusNode();
-  final _imageUrlController = TextEditingController();
+  String? _imageUrl;
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
 
@@ -35,15 +35,16 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
     'title': "",
     'description': "",
     'price': "",
-    'imageUrl': "",
+    // 'imageUrl': "",
   };
   var _isInit = true;
+  var _isInit2 = true;
   var _isLoading = false;
   var _isExpanded = false;
 
   @override
   void initState() {
-    _imageUrlFocusNode.addListener(_updateImageUrl);
+    // _imageUrlFocusNode.addListener(_updateImageUrl);
 
     super.initState();
   }
@@ -65,28 +66,30 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
         };
 
         Provider.of<MenusProvider>(context).tempList = _editedMenu.categories;
-        _imageUrlController.text = _editedMenu.imageUrl;
+        _imageUrl = _editedMenu.imageUrl;
+        _isInit = false;
+        _isInit2 = _isInit;
       }
     }
-    _isInit = false;
+
     super.didChangeDependencies();
   }
 
-  void _updateImageUrl() {
-    if (!_imageUrlFocusNode.hasFocus ||
-        !_imageUrlController.text.endsWith('.jpg') ||
-        !_imageUrlController.text.endsWith('.png') ||
-        !_imageUrlController.text.endsWith('.jpeg')) {
-      setState(() {});
-    }
-  }
+  // void _updateImageUrl() {
+  //   if (!_imageUrlFocusNode.hasFocus ||
+  //       !_imageUrlController.text.endsWith('.jpg') ||
+  //       !_imageUrlController.text.endsWith('.png') ||
+  //       !_imageUrlController.text.endsWith('.jpeg')) {
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   void dispose() {
-    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    // _imageUrlFocusNode.removeListener(_updateImageUrl);
     _priceFocusNode.dispose();
     _discriptionFocusNode.dispose();
-    _imageUrlController.dispose();
+    // _imageUrlController.dispose();
     _imageUrlFocusNode.dispose();
     super.dispose();
   }
@@ -99,23 +102,21 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
     if (!isValid) {
       return;
     }
+    if (_pickedImage == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return ErrorDialog('Image', 'Please add an image for menu');
+          });
+      return;
+    }
 
     if (data.isEmpty) {
       showDialog(
           context: context,
           builder: (ctx) {
-            return AlertDialog(
-              title: const Text('Categories Check'),
-              content: const Text('Please add some categories '),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      return;
-                    },
-                    child: const Text('Okay'))
-              ],
-            );
+            return ErrorDialog(
+                'Categories check', 'Select some of categories ');
           });
       return;
     }
@@ -139,17 +140,8 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
         await showDialog(
             context: context,
             builder: (ctx) {
-              return AlertDialog(
-                title: const Text('An error  occurred'),
-                content: const Text('Something went wrong.'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Okay'))
-                ],
-              );
+              return ErrorDialog(
+                  'An error occured', 'Please add some categories ');
             });
         // }
         // finally {
@@ -171,6 +163,16 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
   //   'Mid Night Deals',
   //   'Snacks'
   // ];
+  File? _pickedImage;
+  void _pickImage() async {
+    final pickedImageFile =
+        await ImagePicker.platform.getImage(source: ImageSource.gallery);
+    setState(() {
+      _pickedImage = File(pickedImageFile!.path);
+    });
+    Provider.of<MenusProvider>(context, listen: false).pickedImage =
+        _pickedImage;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,72 +278,43 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                           }
                         },
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+
+                      Column(
                         children: [
                           Container(
-                            width: 100,
-                            height: 100,
+                            width: 200,
+                            height: 200,
                             margin: const EdgeInsets.only(top: 8, right: 10),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                                 border:
                                     Border.all(width: 1, color: Colors.grey)),
-                            child: _imageUrlController.text.isEmpty
-                                ? const Text(
-                                    'Enter a Url',
-                                    textAlign: TextAlign.center,
+                            child: _pickedImage != null
+                                ? Image.file(
+                                    _pickedImage!,
                                   )
-                                : FittedBox(
-                                    child: Image.network(
-                                      _imageUrlController.text,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                : _isInit2
+                                    ? const Text(
+                                        'Select an image',
+                                        textAlign: TextAlign.center,
+                                      )
+                                    : Image.network(
+                                        _imageUrl!,
+                                      ),
                           ),
-                          Expanded(
-                            child: TextFormField(
-                              decoration:
-                                  const InputDecoration(labelText: 'ImageUrl'),
-                              keyboardType: TextInputType.url,
-                              textInputAction: TextInputAction.done,
-                              controller: _imageUrlController,
-                              focusNode: _imageUrlFocusNode,
-                              onFieldSubmitted: (_) {
-                                _saveForm();
+                          Center(
+                            child: TextButton.icon(
+                              icon: const Icon(Icons.image),
+                              label: const Text('Add image'),
+                              onPressed: () {
+                                _pickImage();
                               },
-                              onSaved: (value) {
-                                _editedMenu = Menu(
-                                    id: _editedMenu.id,
-                                    title: _editedMenu.title,
-                                    imageUrl: value.toString(),
-                                    price: _editedMenu.price,
-                                    description: _editedMenu.description,
-                                    categories: _editedMenu.categories,
-                                    isFavorite: _editedMenu.isFavorite);
-                              },
-                              validator: (value) {
-                                bool validURL =
-                                    Uri.parse(value.toString()).host == ''
-                                        ? true
-                                        : false;
-                                if (validURL) {
-                                  return 'Please provide a ImageUrl';
-                                }
-                                if (!value!.endsWith('.jpg') &&
-                                    !value.endsWith('.png') &&
-                                    !value.endsWith('.jpeg')) {
-                                  return 'Please add a valid Image Url';
-                                } else {
-                                  return null;
-                                }
-                              },
+                              style: TextButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor),
                             ),
                           ),
                         ],
                       ),
-
-                      MenuImagePicker(),
 
 //..........................................................................................................................................
 
@@ -392,6 +365,27 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                     ],
                   )),
             ),
+    );
+  }
+}
+
+class ErrorDialog extends StatelessWidget {
+  final String title;
+  final String content;
+  ErrorDialog(this.title, this.content, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Okay'))
+      ],
     );
   }
 }

@@ -61,8 +61,8 @@ class MyApp extends StatelessWidget {
             )),
       ),
       home:
-          //  MenuUpdateScreen(),
-          const SplashScreen(),
+           MenuUpdateScreen(),
+          // const SplashScreen(),
       routes: {
         ItemDetailScreen.routeName: (ctx) => const ItemDetailScreen(),
         EditMenuScreen.routeName: (ctx) => EditMenuScreen(),

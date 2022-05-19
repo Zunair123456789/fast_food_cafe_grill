@@ -1,6 +1,9 @@
 // ignore_for_file: file_names
 
+import 'dart:io';
+
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -71,10 +74,12 @@ class MenusProvider extends ChangeNotifier {
     'Signature Box',
     'Sharing',
     'Mid Night Deals',
-    'Snacks'
+    'Snacks',
+    'Deal'
   ];
 
   List tempList = [];
+  File? pickedImage;
 
   void addDataToTemop(String category) {
     if (tempList.contains(category)) {
@@ -139,11 +144,23 @@ class MenusProvider extends ChangeNotifier {
   }
 
   Future<void> addMenu(Menu menu) async {
-    final firebase = FirebaseFirestore.instance.collection('menuItem');
+    String imageUrl = menu.imageUrl;
     try {
+      if (pickedImage != null) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('MenuItem')
+            .child(menu.title + '.jpg');
+        await ref
+            .putFile(pickedImage!)
+            .whenComplete(() => print('Image is successfully uploaded'));
+        imageUrl = await ref.getDownloadURL();
+      }
+
+      final firebase = FirebaseFirestore.instance.collection('menuItem');
       final response = await firebase.add({
         'title': menu.title,
-        'imageUrl': menu.imageUrl,
+        'imageUrl': imageUrl,
         'price': menu.price,
         'description': menu.description,
         'isFavorite': menu.isFavorite,
@@ -152,7 +169,7 @@ class MenusProvider extends ChangeNotifier {
       final newMenuItem = Menu(
           id: response.id,
           title: menu.title,
-          imageUrl: menu.imageUrl,
+          imageUrl: imageUrl,
           price: menu.price,
           categories: tempList,
           description: menu.description);
