@@ -60,8 +60,9 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
             )),
       ),
-      home: MenuUpdateScreen(),
-      // const SplashScreen(),
+      home:
+          //  MenuUpdateScreen(),
+          const SplashScreen(),
       routes: {
         ItemDetailScreen.routeName: (ctx) => const ItemDetailScreen(),
         EditMenuScreen.routeName: (ctx) => EditMenuScreen(),
