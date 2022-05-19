@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, empty_catches
 
 import 'dart:io';
 
@@ -174,7 +174,8 @@ class MenusProvider extends ChangeNotifier {
           categories: tempList,
           description: menu.description);
       _listOfMeals.add(newMenuItem);
-
+      tempList = [];
+      pickedImage = null;
       notifyListeners();
     } catch (error) {
       throw error;
@@ -184,42 +185,60 @@ class MenusProvider extends ChangeNotifier {
   }
 
   Future<void> updateMenu(String menuId, Menu newMenu) async {
-    final menuIndex =
-        _listOfMeals.indexWhere((element) => element.id == menuId);
-    if (menuIndex >= 0) {
-      final firebase =
-          FirebaseFirestore.instance.collection('menuItem').doc(menuId);
-      await firebase.update({
-        'title': newMenu.title,
-        'imageUrl': newMenu.imageUrl,
-        'price': newMenu.price,
-        'description': newMenu.description,
-        'categories': tempList
-      });
+    String imageUrl = newMenu.imageUrl;
+    try {
+      if (pickedImage != null) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('MenuItem')
+            .child(newMenu.title + '.jpg');
+        await ref
+            .putFile(pickedImage!)
+            .whenComplete(() => print('Image is successfully uploaded'));
+        imageUrl = await ref.getDownloadURL();
+      }
+      final menuIndex =
+          _listOfMeals.indexWhere((element) => element.id == menuId);
+      if (menuIndex >= 0) {
+        final firebase =
+            FirebaseFirestore.instance.collection('menuItem').doc(menuId);
+        await firebase.update({
+          'title': newMenu.title,
+          'imageUrl': imageUrl,
+          'price': newMenu.price,
+          'description': newMenu.description,
+          'categories': tempList
+        });
 
-      _listOfMeals[menuIndex] = newMenu;
+        _listOfMeals[menuIndex] = newMenu;
 
-      notifyListeners();
-    } else {
-      // ignore: avoid_print
-      print('...');
+        notifyListeners();
+      } else {
+        // ignore: avoid_print
+        print('...');
+      }
+    } catch (error) {
+      rethrow;
     }
   }
 
-  void deleteMenuItem(String menuId) {
+  void deleteMenuItem(String menuId, String title) {
+    final ref =
+        FirebaseStorage.instance.ref().child('MenuItem').child(title + '.jpg');
     final firebase =
         FirebaseFirestore.instance.collection('menuItem').doc(menuId);
     final existingProductIndex =
         _listOfMeals.indexWhere((element) => element.id == menuId);
     var existingProduct = _listOfMeals[existingProductIndex];
 
-    firebase.delete().then((response) {
+    firebase.delete().then((response) async {
       _listOfMeals.removeAt(existingProductIndex);
-      notifyListeners();
+      await ref.delete();
+      // notifyListeners();
       existingProduct.dispose();
     }).catchError((_) {
       _listOfMeals.insert(existingProductIndex, existingProduct);
-      notifyListeners();
+      // notifyListeners();
     });
     _listOfMeals.removeAt(existingProductIndex);
     notifyListeners();

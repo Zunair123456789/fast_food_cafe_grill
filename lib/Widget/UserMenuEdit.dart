@@ -55,7 +55,7 @@ class UserMenuEdit extends StatelessWidget {
                                   onPressed: () {
                                     Provider.of<MenusProvider>(context,
                                             listen: false)
-                                        .deleteMenuItem(id);
+                                        .deleteMenuItem(id, title);
                                     Navigator.of(ctx).pop();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
