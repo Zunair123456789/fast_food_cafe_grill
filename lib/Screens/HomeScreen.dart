@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // ignore: unused_local_variable
     const textStyle = TextStyle(
         fontFamily: 'Quicksand', fontWeight: FontWeight.bold, fontSize: 20);
-    var listItem = context.read<MenusProvider>().listOfMeal;
+    var listItem = context.read<MenusProvider>().listByCategory('Deals');
     return Scaffold(
       body: _isLoading == true
           ? Center(

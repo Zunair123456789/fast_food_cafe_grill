@@ -75,7 +75,7 @@ class MenusProvider extends ChangeNotifier {
     'Sharing',
     'Mid Night Deals',
     'Snacks',
-    'Deal'
+    'Deals'
   ];
 
   List tempList = [];

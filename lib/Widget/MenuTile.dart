@@ -40,8 +40,8 @@ class MenuTile extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: SizedBox(
-              height: 160,
-              width: 160,
+              height: 200,
+              width: 200,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,8 +52,8 @@ class MenuTile extends StatelessWidget {
                           child: Image.network(
                         product.imageUrl,
                         fit: BoxFit.cover,
-                        height: 110,
-                        width: 160,
+                        height: 140,
+                        width: 200,
                       )),
                       Positioned(
                           top: 10,
