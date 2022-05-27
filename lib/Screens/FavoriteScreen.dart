@@ -15,18 +15,21 @@ class FavoiteScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: listItem.length,
-        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-          value: listItem[i],
-          child: MenuTile(),
-        ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 3,
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 2,
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 45.0),
+        child: GridView.builder(
+          padding: const EdgeInsets.all(10.0),
+          itemCount: listItem.length,
+          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+            value: listItem[i],
+            child: MenuTile(),
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 2.4 / 3,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, empty_catches
 
+import 'dart:async';
+
 import 'dart:io';
 
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
@@ -77,9 +79,12 @@ class MenusProvider extends ChangeNotifier {
     'Snacks',
     'Deals'
   ];
-
+  final String authToken;
+  final String userId;
   List tempList = [];
   File? pickedImage;
+
+  MenusProvider(this.userId, this.authToken, this._listOfMeals);
 
   void addDataToTemop(String category) {
     if (tempList.contains(category)) {
@@ -117,13 +122,53 @@ class MenusProvider extends ChangeNotifier {
     return _listOfMeals.where((prod) => prod.isFavorite).toList();
   }
 
+  List<String> _historyOrder = [];
+  // List<Menu> get historyItem {
+  //   List<Menu> list = [];
+  //   for (var i = 0; i < _historyOrder.length; i++) {
+  //     if (_historyOrder[i].) {
+
+  //     }
+  //   }
+  //   return list;
+  // }
+
   Future<void> fetchAndSetProduct() async {
     try {
+      var favoriteData;
       final List<Menu> loadedMenu = [];
       final snap = FirebaseFirestore.instance.collection('menuItem').get();
       final response = await snap;
       final extractedData = response.docs.map((e) => e);
-
+      // final urlFavorite = FirebaseFirestore.instance.collection('users').get();
+      // final snap1 = await urlFavorite;
+      // final Data = snap1.docs.map((e) => e);
+      // Data.forEach((data) {
+      //   favoriteData = data;
+      // });
+      // final hel = await favoriteData;
+      // bool check(String uid) {
+      //   try {
+      //     if (favoriteData == null) {
+      //       return false;
+      //     } else if (favoriteData[uid] == null) {
+      //       return false;
+      //     }
+      //     return favoriteData[uid];
+      //   } on HttpException catch (error) {
+      //     if (error.toString().contains('does not exist')) {
+      //       return false;
+      //     }
+      //   }
+      //   return false;
+      // }
+      final userData = FirebaseFirestore.instance.collection('users').get();
+      final response2 = await userData;
+      final userIdData = response2.docs.map((e) => e);
+      userIdData.forEach((userId) {
+        _historyOrder.add(userId['history'].toString());
+      });
+      print(_historyOrder);
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(
             id: menuData.id,
@@ -132,10 +177,12 @@ class MenusProvider extends ChangeNotifier {
             price: menuData['price'],
             description: menuData['description'],
             isFavorite: menuData['isFavorite'],
+            // favoriteData == null
+            //     ? false
+            //     : favoriteData[menuData.id] ?? false,
             categories: menuData['categories']));
-        // print(menuData['categories']);
       });
-      // print(loadedMenu.first.id);
+
       _listOfMeals = loadedMenu;
       notifyListeners();
     } catch (error) {
@@ -163,7 +210,6 @@ class MenusProvider extends ChangeNotifier {
         'imageUrl': imageUrl,
         'price': menu.price,
         'description': menu.description,
-        'isFavorite': menu.isFavorite,
         'categories': tempList,
       });
       final newMenuItem = Menu(

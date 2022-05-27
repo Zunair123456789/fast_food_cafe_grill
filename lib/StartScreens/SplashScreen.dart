@@ -43,8 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
     slides.add(
       Slide(
         title: "Choose A Tasty ",
-        description:
-            "Much evil soon high in hope do view. Out may few northward believing attempted. Yet timed being songs marry one defer men our. Although finished blessing do of",
+        description: "Avoid the lines and have Fast food delivered by us",
         pathImage: "images/4.png",
         backgroundColor: const Color(0xFF3F51B5),
       ),

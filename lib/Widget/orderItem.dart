@@ -21,10 +21,10 @@ class _OrderItemsState extends State<OrderItems> {
       child: Column(
         children: [
           ListTile(
-            title: Text('\$${widget.order.amount}'),
+            title: Text('Rs. ${widget.order.amount}'),
             subtitle: Text(
               DateFormat('dd/MM/yyyy  hh:mm').format(widget.order.dateTime),
-              style: TextStyle(color: Colors.black54),
+              style: const TextStyle(color: Colors.black54),
             ),
             trailing: IconButton(
               onPressed: () {

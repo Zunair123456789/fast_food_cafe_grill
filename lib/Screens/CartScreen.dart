@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_final_fields, file_names
+import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Provider/Cart.dart' show Cart;
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:fast_food_cafe_grill/Widget/cart_item.dart';
@@ -92,8 +93,10 @@ class OrderButton extends StatefulWidget {
 
 class _OrderButtonState extends State<OrderButton> {
   var _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    final authId = Provider.of<Auth>(context, listen: false);
     return _isLoading
         ? Center(
             child: Padding(
@@ -117,7 +120,7 @@ class _OrderButtonState extends State<OrderButton> {
                     setState(() {
                       _isLoading = false;
                     });
-                    widget.cart.clear();
+                    widget.cart.clear(authId.userId);
                   },
             child: const Text(
               'ORDER NOW',

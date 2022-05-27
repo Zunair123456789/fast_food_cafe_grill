@@ -48,10 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Theme.of(context).primaryColor,
               ),
             )
-          : SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  NavigationToolbar.kMiddleSpacing -
-                  MediaQuery.of(context).padding.top,
+          : SafeArea(
               child: SingleChildScrollView(
                 // ignore: sized_box_for_whitespace
                 child: Column(
@@ -59,9 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const SizedBox(
-                      height: 24,
-                    ),
                     ImageSlideshow(
                       /// Width of the [ImageSlideshow].
                       width: double.infinity,
@@ -100,6 +94,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     const MenuWithType('Recommended'),
                     const MenuWithType('History'),
+                    TextButton.icon(
+                        onPressed: () {
+                          Provider.of<MenusProvider>(context, listen: false);
+                        },
+                        icon: Icon(Icons.abc_outlined),
+                        label: Text('data'))
                   ],
                 ),
               ),

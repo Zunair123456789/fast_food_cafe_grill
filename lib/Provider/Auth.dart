@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_food_cafe_grill/models/http_exception.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +26,10 @@ class Auth extends ChangeNotifier {
     return null;
   }
 
+  String? get userId {
+    return _userId;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     var url =
@@ -43,6 +49,10 @@ class Auth extends ChangeNotifier {
       _userId = responseData['localId'];
       _expiryDate = DateTime.now()
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      if (urlSegment == 'signUp') {
+        final db = FirebaseFirestore.instance.collection('users').doc(userId);
+        await db.set({'email': email});
+      }
       notifyListeners();
     } catch (error) {
       rethrow;

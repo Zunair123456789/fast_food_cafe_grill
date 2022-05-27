@@ -1,3 +1,4 @@
+import 'package:fast_food_cafe_grill/Screens/Location_Map.dart';
 import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/OrderScreen.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,19 @@ class MoreScreen extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            const ListTile(
-                leading: Icon(Icons.location_on),
-                title: Text(
-                  'Store Location',
-                  style: textStyle,
-                ),
-                trailing: Icon(Icons.navigate_next)),
+            InkWell(
+              child: const ListTile(
+                  leading: Icon(Icons.location_on),
+                  title: Text(
+                    'Store Location',
+                    style: textStyle,
+                  ),
+                  trailing: Icon(Icons.navigate_next)),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LocationMap()));
+              },
+            ),
             const Divider(
               height: 1,
             ),

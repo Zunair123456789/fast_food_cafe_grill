@@ -122,18 +122,5 @@ class _NavBarState extends State<NavBar> {
       ],
       actionBarView: const CartScreen(),
     );
-
-    //  Scaffold(
-    // bottomNavigationBar: CurvedNavigationBar(
-    //   backgroundColor: const Color(0xFF3F51B5),
-    //   items: navIcon,
-    //   onTap: (index) {
-    //     setState(() {});
-    //     indexVal = index;
-    //   },
-    // ),
-    // body: _listpages[indexVal],
-
-    // );
   }
 }

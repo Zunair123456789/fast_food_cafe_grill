@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:flutter/material.dart';
 
 class CartItem {
@@ -33,6 +35,8 @@ class Cart extends ChangeNotifier {
     }
   }
 
+  List<String> _menuIds = [];
+
   double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
@@ -51,14 +55,15 @@ class Cart extends ChangeNotifier {
               quantity: existingValue.quantity + 1,
               price: existingValue.price));
     } else {
-      _items.putIfAbsent(
-          productId,
-          () => CartItem(
-                id: DateTime.now().toString(),
-                title: title,
-                price: price,
-                quantity: 1,
-              ));
+      _items.putIfAbsent(productId, () {
+        _menuIds.add(productId);
+        return CartItem(
+          id: DateTime.now().toString(),
+          title: title,
+          price: price,
+          quantity: 1,
+        );
+      });
     }
     notifyListeners();
   }
@@ -87,7 +92,9 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clear() {
+  Future<void> clear(String? userId) async {
+    final hel = FirebaseFirestore.instance.collection('users').doc(userId);
+    await hel.update({'history': _menuIds});
     _items = {};
     notifyListeners();
   }

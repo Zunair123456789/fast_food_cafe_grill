@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, file_names, use_key_in_widget_constructors
 
+import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Provider/Cart.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
@@ -24,6 +25,7 @@ class MenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Menu>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
     return Container(
       margin: const EdgeInsets.all(2),
       child: ClipRRect(
@@ -44,7 +46,7 @@ class MenuTile extends StatelessWidget {
               width: 200,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Stack(
                     children: [
@@ -52,7 +54,7 @@ class MenuTile extends StatelessWidget {
                           child: Image.network(
                         product.imageUrl,
                         fit: BoxFit.cover,
-                        height: 140,
+                        height: 120,
                         width: 200,
                       )),
                       Positioned(
@@ -60,7 +62,7 @@ class MenuTile extends StatelessWidget {
                           right: 10,
                           child: InkWell(
                               onTap: () {
-                                product.toggleFavoriteStatus();
+                                product.toggleFavoriteStatus(auth.userId!);
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(
@@ -86,7 +88,7 @@ class MenuTile extends StatelessWidget {
                                   'Added item to Cart!',
                                   textAlign: TextAlign.center,
                                 ),
-                                duration: Duration(seconds: 2),
+                                duration: const Duration(seconds: 2),
                                 action: SnackBarAction(
                                   label: 'UNDO',
                                   onPressed: () {
@@ -111,10 +113,22 @@ class MenuTile extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       product.title,
+                      textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Rs. ${product.price}',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
                       maxLines: 1,
                     ),
                   ),

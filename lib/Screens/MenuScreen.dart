@@ -28,25 +28,19 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: refreshMenu,
-        child: _isLoading == true
-            ? Center()
-            : SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    NavigationToolbar.kMiddleSpacing -
-                    MediaQuery.of(context).padding.top,
-                child: SingleChildScrollView(
+      extendBodyBehindAppBar: true,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: refreshMenu,
+          child: _isLoading == true
+              ? Center()
+              : SingleChildScrollView(
                   // ignore: sized_box_for_whitespace
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
-                      const SizedBox(
-                        height: 30,
-                      ),
-
                       //.......................................................................................//////.....
                       const MenuWithType('Everyday Value'),
                       const MenuWithType('Make it a Meal'),
@@ -61,7 +55,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     ],
                   ),
                 ),
-              ),
+        ),
       ),
     );
   }

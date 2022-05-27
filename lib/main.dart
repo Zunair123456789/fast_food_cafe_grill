@@ -20,8 +20,12 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (ctx) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => MenusProvider(),
+        ChangeNotifierProxyProvider<Auth, MenusProvider>(
+          create: (ctx) => MenusProvider('', '', []),
+          update: (ctx, auth, previousItemList) => MenusProvider(
+              auth.token!,
+              auth.userId!,
+              previousItemList == null ? [] : previousItemList.listOfMeal),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
