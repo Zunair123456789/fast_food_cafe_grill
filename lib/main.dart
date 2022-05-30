@@ -1,5 +1,7 @@
+import 'package:fast_food_cafe_grill/NavBar.dart';
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
-import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/SplashScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,7 @@ import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/ItemDetailScreen.dart';
-import 'StartScreens/SplashScreen.dart';
+import 'StartScreens/IntroScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +25,8 @@ Future<void> main() async {
         ChangeNotifierProxyProvider<Auth, MenusProvider>(
           create: (ctx) => MenusProvider('', '', []),
           update: (ctx, auth, previousItemList) => MenusProvider(
-              auth.token!,
-              auth.userId!,
+              auth.token ?? '',
+              auth.userId ?? '',
               previousItemList == null ? [] : previousItemList.listOfMeal),
         ),
         ChangeNotifierProvider(
@@ -64,9 +66,18 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
             )),
       ),
-      home:
-          //  MenuUpdateScreen(),
-          const SplashScreen(),
+      home: Consumer<Auth>(
+          builder: (ctx, auth, _) => auth.isAuth
+              ? const NavBar()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? const SplashScreen()
+                          : const IntroScreen())),
+      //  MenuUpdateScreen(),
+      // const IntroScreen(),
       routes: {
         ItemDetailScreen.routeName: (ctx) => const ItemDetailScreen(),
         EditMenuScreen.routeName: (ctx) => EditMenuScreen(),

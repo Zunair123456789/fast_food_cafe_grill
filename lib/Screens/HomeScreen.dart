@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: double.infinity,
 
                       /// Height of the [ImageSlideshow].
-                      height: 200,
+                      height: 250,
 
                       /// The page to show when first creating the [ImageSlideshow].
                       initialPage: 0,
@@ -94,12 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     const MenuWithType('Recommended'),
                     const MenuWithType('History'),
-                    TextButton.icon(
-                        onPressed: () {
-                          Provider.of<MenusProvider>(context, listen: false);
-                        },
-                        icon: Icon(Icons.abc_outlined),
-                        label: Text('data'))
                   ],
                 ),
               ),

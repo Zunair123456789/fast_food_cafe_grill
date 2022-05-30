@@ -1,21 +1,21 @@
 // ignore_for_file: prefer_final_fields, file_names
 import 'package:fast_food_cafe_grill/NavBar.dart';
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
-import 'package:fast_food_cafe_grill/Screens/HomeScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/SplashScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:provider/provider.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+class IntroScreen extends StatefulWidget {
+  const IntroScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _IntroScreenState createState() => _IntroScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _IntroScreenState extends State<IntroScreen> {
   List<Slide> slides = [];
 
   @override
@@ -55,13 +55,16 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
             builder: (ctx) => Consumer<Auth>(
-                builder: (ctx, auth, _) =>
-                    auth.isAuth ? const NavBar() : AuthScreen())),
+                builder: (ctx, auth, _) => auth.isAuth
+                    ? const NavBar()
+                    : FutureBuilder(
+                        future: auth.tryAutoLogin(),
+                        builder: (ctx, authResultSnapshot) =>
+                            authResultSnapshot.connectionState ==
+                                    ConnectionState.waiting
+                                ? const SplashScreen()
+                                : AuthScreen()))),
         (route) => false);
-
-    // Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-    //   return const NavBar();
-    // }));
   }
 
   @override

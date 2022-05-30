@@ -123,6 +123,8 @@ class MenusProvider extends ChangeNotifier {
   }
 
   List<String> _historyOrder = [];
+
+  void history() {}
   // List<Menu> get historyItem {
   //   List<Menu> list = [];
   //   for (var i = 0; i < _historyOrder.length; i++) {
@@ -135,7 +137,7 @@ class MenusProvider extends ChangeNotifier {
 
   Future<void> fetchAndSetProduct() async {
     try {
-      var favoriteData;
+      // var favoriteData;
       final List<Menu> loadedMenu = [];
       final snap = FirebaseFirestore.instance.collection('menuItem').get();
       final response = await snap;
@@ -168,6 +170,7 @@ class MenusProvider extends ChangeNotifier {
       userIdData.forEach((userId) {
         _historyOrder.add(userId['history'].toString());
       });
+
       print(_historyOrder);
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(

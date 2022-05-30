@@ -54,7 +54,7 @@ class _OrderItemsState extends State<OrderItems> {
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                '${prod.quantity}x \$${prod.price}',
+                                '${prod.quantity}x Rs. ${prod.price}',
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 18),
                               ),

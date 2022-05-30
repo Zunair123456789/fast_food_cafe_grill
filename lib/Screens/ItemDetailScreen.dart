@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
 
-import 'dart:ui';
-
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Provider/Cart.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
@@ -129,7 +127,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                listItem.toggleFavoriteStatus(auth.userId!);
+                                listItem.toggleFavoriteStatus();
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(

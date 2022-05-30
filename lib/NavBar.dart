@@ -114,7 +114,7 @@ class _NavBarState extends State<NavBar> {
             ),
             text: 'More'),
       ],
-      bodyItems: const [
+      bodyItems: [
         HomeScreen(),
         MenuScreen(),
         FavoiteScreen(),

@@ -33,7 +33,7 @@ class _MenuScreenState extends State<MenuScreen> {
         child: RefreshIndicator(
           onRefresh: refreshMenu,
           child: _isLoading == true
-              ? Center()
+              ? Container()
               : SingleChildScrollView(
                   // ignore: sized_box_for_whitespace
                   child: Column(

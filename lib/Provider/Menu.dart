@@ -19,7 +19,7 @@ class Menu extends ChangeNotifier {
     required this.categories,
     this.isFavorite = false,
   });
-  Future<void> toggleFavoriteStatus(String userId) async {
+  Future<void> toggleFavoriteStatus() async {
     final oldStatus = isFavorite;
 
     isFavorite = !isFavorite;
