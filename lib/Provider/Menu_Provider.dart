@@ -110,6 +110,13 @@ class MenusProvider extends ChangeNotifier {
     final hello = [
       ..._listOfMeals.where((element) => element.categories.contains(category))
     ];
+    if (category == 'History') {
+      return _listOfMeals.take(4).toList();
+    }
+    if (category == 'Recommended') {
+      return _listOfMeals.reversed.take(4).toList();
+    }
+
     // print(hello);
     return hello;
   }
@@ -123,8 +130,14 @@ class MenusProvider extends ChangeNotifier {
   }
 
   List<String> _historyOrder = [];
-
-  void history() {}
+  List<Menu> _historylist = [];
+  void history() {
+    for (var i = 1; i < 2; i++) {
+      _historylist.add(
+          _listOfMeals.firstWhere((element) => _historyOrder[1] == element.id));
+      // print(_historyOrder[1]);
+    }
+  }
   // List<Menu> get historyItem {
   //   List<Menu> list = [];
   //   for (var i = 0; i < _historyOrder.length; i++) {
@@ -164,14 +177,22 @@ class MenusProvider extends ChangeNotifier {
       //   }
       //   return false;
       // }
-      final userData = FirebaseFirestore.instance.collection('users').get();
-      final response2 = await userData;
-      final userIdData = response2.docs.map((e) => e);
-      userIdData.forEach((userId) {
-        _historyOrder.add(userId['history'].toString());
-      });
+      // final userData = FirebaseFirestore.instance.collection('users').get();
+      // final response2 = await userData;
+      // final userIdData = response2.docs.map((e) => e);
+      // userIdData.forEach((userId) {
+      //   _historyOrder.add(userId['history']);
+      // });
 
-      print(_historyOrder);
+      // print(_historyOrder[0]);
+      // history();
+      // final hel = FirebaseFirestore.instance
+      //     .collection('users')
+      //     .doc(userId)
+      //     .collection('history');
+      // final hello = await hel;
+      // final rextract = hello;
+      // print(rextract);
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(
             id: menuData.id,
