@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fast_food_cafe_grill/Provider/Menu.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class CafeItem extends ChangeNotifier {
@@ -18,6 +22,8 @@ class Cafe extends ChangeNotifier {
   List<CafeItem> _listOfCafes = [];
 
   String _isSelected = '';
+
+  File? pickedImage;
 
   String get isSelected {
     return _isSelected;
@@ -59,9 +65,39 @@ class Cafe extends ChangeNotifier {
     }
   }
 
-  void printlist(String a) {
-    print(a);
-    print(_listOfCafes[1].cafeName);
-    // return;
+  Future<void> addMenu(CafeItem cafe) async {
+    String? imageUrl;
+    try {
+      if (pickedImage != null) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('cafeslogos')
+            .child(cafe.cafeName + '.jpg');
+        await ref
+            .putFile(pickedImage!)
+            .whenComplete(() => print('Image is successfully uploaded'));
+        imageUrl = await ref.getDownloadURL();
+      }
+
+      final firebase = FirebaseFirestore.instance.collection('listOfRestorant');
+      final response = await firebase.add({
+        'name': cafe.cafeName,
+        'imageUrl': imageUrl,
+        'description': cafe.cafeDiscription,
+      });
+      final newMenuItem = CafeItem(
+        cafeId: response.id,
+        cafeName: cafe.cafeName,
+        cafeDiscription: cafe.cafeDiscription,
+        cafeImageUrl: imageUrl.toString(),
+      );
+
+      _listOfCafes.add(newMenuItem);
+
+      pickedImage = null;
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
   }
 }

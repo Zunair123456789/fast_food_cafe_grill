@@ -1,4 +1,5 @@
 import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
+import 'package:fast_food_cafe_grill/Screens/AddNewCafe.dart';
 import 'package:fast_food_cafe_grill/Widget/CafeList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,14 @@ class CafeUpdateScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Your Menus'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AddNewCafe()));
+              },
+              icon: const Icon(Icons.add))
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _refreshMenu,

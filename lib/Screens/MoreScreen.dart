@@ -77,8 +77,8 @@ class MoreScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => MenuUpdateScreen()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MenuUpdateScreen()));
               },
               child: const ListTile(
                 title: Text(
