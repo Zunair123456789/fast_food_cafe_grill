@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_final_fields, file_names, use_key_in_widget_constructors
 
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Cart.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
-import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Screens/ItemDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +26,7 @@ class MenuTile extends StatelessWidget {
     final product = Provider.of<Menu>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
+    final cafeData = Provider.of<Cafe>(context, listen: false).findById();
     return Container(
       margin: const EdgeInsets.all(2),
       child: ClipRRect(
@@ -51,18 +52,22 @@ class MenuTile extends StatelessWidget {
                   Stack(
                     children: [
                       GridTile(
-                          child: Image.network(
-                        product.imageUrl,
-                        fit: BoxFit.cover,
+                          child: Container(
                         height: 120,
                         width: 200,
+                        child: Image.network(
+                          product.imageUrl,
+                          fit: BoxFit.cover,
+                          height: 120,
+                          width: 200,
+                        ),
                       )),
                       Positioned(
                           top: 10,
                           right: 10,
                           child: InkWell(
                               onTap: () {
-                                product.toggleFavoriteStatus();
+                                product.toggleFavoriteStatus(cafeData.cafeName);
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(

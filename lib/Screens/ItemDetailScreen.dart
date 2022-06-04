@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Cart.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
@@ -25,6 +26,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
     final listItem =
         Provider.of<MenusProvider>(context, listen: false).findById(itemId);
     final auth = Provider.of<Auth>(context);
+    final cafeData = Provider.of<Cafe>(context, listen: false).findById();
     // final quantity = Provider.of<Cart>(context).itemQuantity(itemId);
     // final product = Provider.of<Menu>(context, listen: false);
     const textStyle = TextStyle(
@@ -127,7 +129,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                listItem.toggleFavoriteStatus();
+                                listItem
+                                    .toggleFavoriteStatus(cafeData.cafeName);
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(

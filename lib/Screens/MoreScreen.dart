@@ -1,4 +1,5 @@
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fast_food_cafe_grill/Screens/CafeUpdateScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/Location_Map.dart';
 import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/OrderScreen.dart';
@@ -76,8 +77,8 @@ class MoreScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MenuUpdateScreen()));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => MenuUpdateScreen()));
               },
               child: const ListTile(
                 title: Text(
@@ -108,6 +109,21 @@ class MoreScreen extends StatelessWidget {
               title: Text(
                 'Privacy Policy',
                 style: textStyle,
+              ),
+            ),
+            const Divider(
+              height: 1,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CafeUpdateScreen()));
+              },
+              child: const ListTile(
+                title: Text(
+                  'Add New Cafe',
+                  style: textStyle,
+                ),
               ),
             ),
             const Divider(

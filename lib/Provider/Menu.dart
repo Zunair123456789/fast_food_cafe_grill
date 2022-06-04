@@ -19,14 +19,14 @@ class Menu extends ChangeNotifier {
     required this.categories,
     this.isFavorite = false,
   });
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String cafename) async {
     final oldStatus = isFavorite;
 
     isFavorite = !isFavorite;
     notifyListeners();
-    final hel = FirebaseFirestore.instance.collection('menuItem').doc(id);
+    final hel =
+        FirebaseFirestore.instance.collection('menuItem-$cafename').doc(id);
 
-    // final hel = FirebaseFirestore.instance.collection('users').doc(userId);
     try {
       await hel.update({'isFavorite': isFavorite});
       // await hel.update({id: isFavorite});

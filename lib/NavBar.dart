@@ -3,14 +3,17 @@
 import 'package:curved_nav_bar/curved_bar/curved_action_bar.dart';
 import 'package:curved_nav_bar/fab_bar/fab_bottom_app_bar_item.dart';
 import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart';
+import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
+
 import 'package:fast_food_cafe_grill/Provider/Cart.dart';
+import 'package:fast_food_cafe_grill/Screens/CafeDetailScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/CafeSelection.dart';
 import 'package:fast_food_cafe_grill/Screens/FavoriteScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/MoreScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fast_food_cafe_grill/Screens/CartScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/MenuScreen.dart';
-import 'package:fast_food_cafe_grill/Screens/HomeScreen.dart';
 import 'package:provider/provider.dart';
 import 'Widget/badge.dart';
 
@@ -34,6 +37,7 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final cafe = Provider.of<Cafe>(context);
     return CurvedNavBar(
       actionButton: CurvedActionBar(
           onTab: (value) {
@@ -115,7 +119,9 @@ class _NavBarState extends State<NavBar> {
             text: 'More'),
       ],
       bodyItems: [
-        HomeScreen(),
+        cafe.isSelected == ''
+            ? CafeSelection()
+            : CafeDetailScreen(cafe.isSelected),
         MenuScreen(),
         FavoiteScreen(),
         MoreScreen(),

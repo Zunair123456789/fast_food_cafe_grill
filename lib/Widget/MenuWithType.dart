@@ -26,7 +26,7 @@ class MenuWithType extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: <Widget>[
+            children: [
               ...List.generate(
                 listItem.length,
                 (i) => ChangeNotifierProvider.value(

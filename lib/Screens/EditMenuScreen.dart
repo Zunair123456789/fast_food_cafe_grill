@@ -102,6 +102,16 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
     if (!isValid) {
       return;
     }
+    final check = Provider.of<MenusProvider>(context, listen: false).cafeName;
+    if (check == null || check == '') {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return ErrorDialog('Cafe not Selected',
+                'Please select a cafe from home screen first');
+          });
+      return;
+    }
     if (_pickedImage == null) {
       showDialog(
           context: context,

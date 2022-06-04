@@ -28,13 +28,13 @@ class ContactUS extends StatelessWidget {
         companyName: 'Fast Food Cafe & Grill',
         phoneNumber: '+92 303 6657152',
         // website: 'inximamb5.wixsite.com/inzimambhatti',
-        githubUserName: 'https://github.com/aliahsan786',
-        linkedinURL: 'https://www.linkedin.com/in/ali-ahsan-b84360182',
+        // githubUserName: 'https://github.com/aliahsan786',
+        // linkedinURL: 'https://www.linkedin.com/in/ali-ahsan-b84360182',
         tagLine: 'Home Dilevery',
-        twitterHandle: 'iamInzimam',
+        // twitterHandle: 'iamInzimam',s
         taglineColor: Colors.black,
         instagram: 'aliahsan786211',
-        facebookHandle: 'iaminzimam',
+        facebookHandle: 'aliahsan7786211',
       ),
     );
   }

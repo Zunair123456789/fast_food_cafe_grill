@@ -47,7 +47,7 @@ class _CartScreenState extends State<CartScreen> {
                   Chip(
                     backgroundColor: const Color(0xFF3F51B5),
                     label: Text(
-                      '\$${cart.totalAmount}',
+                      'Rs. ${cart.totalAmount}',
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),

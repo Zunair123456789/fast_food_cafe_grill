@@ -4,11 +4,13 @@ import 'dart:async';
 
 import 'dart:io';
 
+import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 final db = FirebaseFirestore.instance;
 
@@ -110,12 +112,12 @@ class MenusProvider extends ChangeNotifier {
     final hello = [
       ..._listOfMeals.where((element) => element.categories.contains(category))
     ];
-    if (category == 'History') {
-      return _listOfMeals.take(4).toList();
-    }
-    if (category == 'Recommended') {
-      return _listOfMeals.reversed.take(4).toList();
-    }
+    // if (category == 'History') {
+    //   return _listOfMeals.take(4).toList();
+    // }
+    // if (category == 'Recommended') {
+    //   return _listOfMeals.reversed.take(4).toList();
+    // }
 
     // print(hello);
     return hello;
@@ -129,6 +131,8 @@ class MenusProvider extends ChangeNotifier {
     return _listOfMeals.where((prod) => prod.isFavorite).toList();
   }
 
+  String? cafeName;
+
   List<String> _historyOrder = [];
   List<Menu> _historylist = [];
   void history() {
@@ -138,61 +142,16 @@ class MenusProvider extends ChangeNotifier {
       // print(_historyOrder[1]);
     }
   }
-  // List<Menu> get historyItem {
-  //   List<Menu> list = [];
-  //   for (var i = 0; i < _historyOrder.length; i++) {
-  //     if (_historyOrder[i].) {
-
-  //     }
-  //   }
-  //   return list;
-  // }
 
   Future<void> fetchAndSetProduct() async {
     try {
       // var favoriteData;
       final List<Menu> loadedMenu = [];
-      final snap = FirebaseFirestore.instance.collection('menuItem').get();
+      final snap =
+          FirebaseFirestore.instance.collection('menuItem-$cafeName').get();
       final response = await snap;
       final extractedData = response.docs.map((e) => e);
-      // final urlFavorite = FirebaseFirestore.instance.collection('users').get();
-      // final snap1 = await urlFavorite;
-      // final Data = snap1.docs.map((e) => e);
-      // Data.forEach((data) {
-      //   favoriteData = data;
-      // });
-      // final hel = await favoriteData;
-      // bool check(String uid) {
-      //   try {
-      //     if (favoriteData == null) {
-      //       return false;
-      //     } else if (favoriteData[uid] == null) {
-      //       return false;
-      //     }
-      //     return favoriteData[uid];
-      //   } on HttpException catch (error) {
-      //     if (error.toString().contains('does not exist')) {
-      //       return false;
-      //     }
-      //   }
-      //   return false;
-      // }
-      // final userData = FirebaseFirestore.instance.collection('users').get();
-      // final response2 = await userData;
-      // final userIdData = response2.docs.map((e) => e);
-      // userIdData.forEach((userId) {
-      //   _historyOrder.add(userId['history']);
-      // });
 
-      // print(_historyOrder[0]);
-      // history();
-      // final hel = FirebaseFirestore.instance
-      //     .collection('users')
-      //     .doc(userId)
-      //     .collection('history');
-      // final hello = await hel;
-      // final rextract = hello;
-      // print(rextract);
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(
             id: menuData.id,
@@ -205,10 +164,12 @@ class MenusProvider extends ChangeNotifier {
             //     ? false
             //     : favoriteData[menuData.id] ?? false,
             categories: menuData['categories']));
+        print(menuData['categories']);
       });
 
       _listOfMeals = loadedMenu;
       notifyListeners();
+      print('done menu list');
     } catch (error) {
       throw error;
     }
@@ -228,13 +189,15 @@ class MenusProvider extends ChangeNotifier {
         imageUrl = await ref.getDownloadURL();
       }
 
-      final firebase = FirebaseFirestore.instance.collection('menuItem');
+      final firebase =
+          FirebaseFirestore.instance.collection('menuItem-$cafeName');
       final response = await firebase.add({
         'title': menu.title,
         'imageUrl': imageUrl,
         'price': menu.price,
         'description': menu.description,
         'categories': tempList,
+        'isFavorite': false,
       });
       final newMenuItem = Menu(
           id: response.id,
@@ -270,8 +233,9 @@ class MenusProvider extends ChangeNotifier {
       final menuIndex =
           _listOfMeals.indexWhere((element) => element.id == menuId);
       if (menuIndex >= 0) {
-        final firebase =
-            FirebaseFirestore.instance.collection('menuItem').doc(menuId);
+        final firebase = FirebaseFirestore.instance
+            .collection('menuItem-$cafeName')
+            .doc(menuId);
         await firebase.update({
           'title': newMenu.title,
           'imageUrl': imageUrl,
@@ -296,7 +260,7 @@ class MenusProvider extends ChangeNotifier {
     final ref =
         FirebaseStorage.instance.ref().child('MenuItem').child(title + '.jpg');
     final firebase =
-        FirebaseFirestore.instance.collection('menuItem').doc(menuId);
+        FirebaseFirestore.instance.collection('menuItem-$cafeName').doc(menuId);
     final existingProductIndex =
         _listOfMeals.indexWhere((element) => element.id == menuId);
     var existingProduct = _listOfMeals[existingProductIndex];
@@ -312,5 +276,9 @@ class MenusProvider extends ChangeNotifier {
     });
     _listOfMeals.removeAt(existingProductIndex);
     notifyListeners();
+  }
+
+  void prnitlist() {
+    print('Provider Menu');
   }
 }

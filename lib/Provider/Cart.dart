@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:flutter/material.dart';
 
 class CartItem {
