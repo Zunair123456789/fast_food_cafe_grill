@@ -88,6 +88,9 @@ class _CafeSelectionState extends State<CafeSelection> {
                         value: listOfcafe[i],
                         child: CafeTile(),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 55,
                     )
                   ],
                 ),

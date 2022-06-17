@@ -4,6 +4,7 @@ import 'package:fast_food_cafe_grill/Screens/Location_Map.dart';
 import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/OrderScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/ContactUs.dart';
+import 'package:fast_food_cafe_grill/Screens/PrivacyPolicy.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -105,10 +106,16 @@ class MoreScreen extends StatelessWidget {
             const Divider(
               height: 1,
             ),
-            const ListTile(
-              title: Text(
-                'Privacy Policy',
-                style: textStyle,
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicy()));
+              },
+              child: const ListTile(
+                title: Text(
+                  'Privacy Policy',
+                  style: textStyle,
+                ),
               ),
             ),
             const Divider(
@@ -126,15 +133,15 @@ class MoreScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Divider(
-              height: 1,
-            ),
-            const ListTile(
-              title: Text(
-                'Terms and Conditions',
-                style: textStyle,
-              ),
-            ),
+            // const Divider(
+            //   height: 1,
+            // ),
+            // const ListTile(
+            //   title: Text(
+            //     'Terms and Conditions',
+            //     style: textStyle,
+            //   ),
+            // ),
             const Divider(
               height: 1,
             ),

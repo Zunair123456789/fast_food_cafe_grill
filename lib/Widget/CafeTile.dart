@@ -1,5 +1,6 @@
 import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
+import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,8 @@ class CafeTile extends StatelessWidget {
                     cafeData.cafeName;
                 Provider.of<MenusProvider>(context, listen: false)
                     .fetchAndSetProduct();
+                Provider.of<Order>(context, listen: false).cafeName =
+                    cafeData.cafeName;
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

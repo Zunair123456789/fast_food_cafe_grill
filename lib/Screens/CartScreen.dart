@@ -2,6 +2,7 @@
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Provider/Cart.dart' show Cart;
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
+import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
 import 'package:fast_food_cafe_grill/Widget/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -110,6 +111,13 @@ class _OrderButtonState extends State<OrderButton> {
             onPressed: (widget.cart.totalAmount <= 0 || _isLoading)
                 ? null
                 : () async {
+                    final check =
+                        Provider.of<Order>(context, listen: false).cafeName;
+                    if (check == null || check == '') {
+                      ErrorDialog('Cafe Not Select',
+                          'Please first select any cafe from the home screen');
+                    }
+
                     setState(() {
                       _isLoading = true;
                     });
@@ -120,7 +128,7 @@ class _OrderButtonState extends State<OrderButton> {
                     setState(() {
                       _isLoading = false;
                     });
-                    widget.cart.clear(authId.userId);
+                    widget.cart.clear();
                   },
             child: const Text(
               'ORDER NOW',

@@ -277,8 +277,4 @@ class MenusProvider extends ChangeNotifier {
     _listOfMeals.removeAt(existingProductIndex);
     notifyListeners();
   }
-
-  void prnitlist() {
-    print('Provider Menu');
-  }
 }

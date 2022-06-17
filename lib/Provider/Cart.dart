@@ -91,9 +91,9 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> clear(String? userId) async {
-    final hel = FirebaseFirestore.instance.collection('users').doc(userId);
-    await hel.update({'history': _menuIds});
+  void clear(/*String? userId*/) {
+    // final hel = FirebaseFirestore.instance.collection('users').doc(userId);
+    // await hel.update({'history': _menuIds});
     _items = {};
     notifyListeners();
   }

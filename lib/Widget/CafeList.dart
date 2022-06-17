@@ -1,19 +1,20 @@
+import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CafeList extends StatelessWidget {
-  final String id;
-  final String title;
+  final String cafeId;
+  final String cafeName;
   final String imageUrl;
-  CafeList(this.id, this.title, this.imageUrl);
+  CafeList(this.cafeId, this.cafeName, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        title,
+        cafeName,
         overflow: TextOverflow.fade,
       ),
       leading: CircleAvatar(
@@ -40,9 +41,8 @@ class CafeList extends StatelessWidget {
                               child: const Text('No')),
                           TextButton(
                               onPressed: () {
-                                Provider.of<MenusProvider>(context,
-                                        listen: false)
-                                    .deleteMenuItem(id, title);
+                                Provider.of<Cafe>(context, listen: false)
+                                    .deleteCafeItem(cafeId, cafeName);
                                 Navigator.of(ctx).pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

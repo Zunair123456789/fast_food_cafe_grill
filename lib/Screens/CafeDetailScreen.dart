@@ -1,5 +1,6 @@
 import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
+import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,8 @@ class CafeDetailScreen extends StatelessWidget {
                 onTap: () {
                   cafeData.cafeSelection('');
                   Provider.of<MenusProvider>(context, listen: false).cafeName =
+                      cafeData.isSelected;
+                  Provider.of<Order>(context, listen: false).cafeName =
                       cafeData.isSelected;
                 },
                 child: const Padding(

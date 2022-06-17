@@ -100,4 +100,28 @@ class Cafe extends ChangeNotifier {
       rethrow;
     }
   }
+
+  void deleteCafeItem(String cafeId, String cafeName) {
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('cafeslogos')
+        .child(cafeName + '.jpg');
+    final firebase =
+        FirebaseFirestore.instance.collection('listOfRestorant').doc(cafeId);
+    final existingProductIndex =
+        _listOfCafes.indexWhere((element) => element.cafeId == cafeId);
+    var existingProduct = _listOfCafes[existingProductIndex];
+
+    firebase.delete().then((response) async {
+      _listOfCafes.removeAt(existingProductIndex);
+      await ref.delete();
+      // notifyListeners();
+      existingProduct.dispose();
+    }).catchError((_) {
+      _listOfCafes.insert(existingProductIndex, existingProduct);
+      // notifyListeners();
+    });
+    _listOfCafes.removeAt(existingProductIndex);
+    notifyListeners();
+  }
 }

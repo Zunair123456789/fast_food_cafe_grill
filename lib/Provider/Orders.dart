@@ -18,6 +18,7 @@ class OrderItem {
 
 class Order extends ChangeNotifier {
   List<OrderItem> _orders = [];
+  String? cafeName;
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -25,7 +26,8 @@ class Order extends ChangeNotifier {
 
   Future<void> fetchAndSetOrder() async {
     final List<OrderItem> loadedOrder = [];
-    final snap = FirebaseFirestore.instance.collection('Orders').get();
+    final snap =
+        FirebaseFirestore.instance.collection('Orders-$cafeName').get();
     final response = await snap;
     final extractedData = response.docs.map((e) => e);
     if (extractedData.isEmpty) {
@@ -56,7 +58,7 @@ class Order extends ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    final firebase = FirebaseFirestore.instance.collection('Orders');
+    final firebase = FirebaseFirestore.instance.collection('Orders-$cafeName');
     final timestamp = DateTime.now();
     final respose = await firebase.add({
       'amount': total,
