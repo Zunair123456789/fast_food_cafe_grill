@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names, use_key_in_widget_constructors
 
-import 'dart:math';
-
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/models/http_exception.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,7 @@ class AuthScreen extends StatelessWidget {
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           Container(
@@ -112,6 +110,7 @@ class _AuthCardState extends State<AuthCard> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
+    'fname': '',
     'email': '',
     'password': '',
   };
@@ -152,6 +151,8 @@ class _AuthCardState extends State<AuthCard> {
         );
       } else {
         // Sign user up
+        Provider.of<Auth>(context, listen: false)
+            .setname(_authData['fname'].toString());
         await Provider.of<Auth>(context, listen: false).signup(
           _authData['email'].toString(),
           _authData['password'].toString(),
@@ -206,13 +207,35 @@ class _AuthCardState extends State<AuthCard> {
             BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
         width: deviceSize.width * 0.85,
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
             child: Column(
               children: <Widget>[
+                if (_authMode == AuthMode.Signup)
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        labelText: 'Full Name',
+                        prefixIcon: Icon(
+                          Icons.person,
+                        )),
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Invalid Full Name!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData['fname'] = value!;
+                    },
+                  ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'E-Mail'),
+                  decoration: const InputDecoration(
+                      labelText: 'E-Mail',
+                      prefixIcon: Icon(
+                        Icons.email,
+                      )),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
@@ -225,7 +248,8 @@ class _AuthCardState extends State<AuthCard> {
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(
+                      labelText: 'Password', prefixIcon: Icon(Icons.lock)),
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
@@ -237,11 +261,23 @@ class _AuthCardState extends State<AuthCard> {
                     _authData['password'] = value!;
                   },
                 ),
+                if (_authMode == AuthMode.Login)
+                  const SizedBox(
+                    height: 20,
+                  ),
+                if (_authMode == AuthMode.Login)
+                  Text(
+                    'Don\'t Remember your Password?',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
                 if (_authMode == AuthMode.Signup)
                   TextFormField(
                     enabled: _authMode == AuthMode.Signup,
-                    decoration:
-                        const InputDecoration(labelText: 'Confirm Password'),
+                    decoration: const InputDecoration(
+                        labelText: 'Confirm Password',
+                        prefixIcon: Icon(Icons.lock)),
                     obscureText: true,
                     validator: _authMode == AuthMode.Signup
                         ? (value) {

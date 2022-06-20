@@ -1,3 +1,4 @@
+import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
@@ -13,9 +14,11 @@ class CafeDetailScreen extends StatelessWidget {
     final cafe = Provider.of<Cafe>(context).findById();
     final cafeData = Provider.of<Cafe>(context, listen: false);
     final mediaQuery = MediaQuery.of(context).size;
+    final name = Provider.of<Auth>(context).fname;
     return Scaffold(
         drawer: const Drawer(),
         appBar: AppBar(
+            leading: const Icon(Icons.person),
             actions: [
               InkWell(
                 onTap: () {
@@ -29,10 +32,16 @@ class CafeDetailScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Icon(Icons.change_circle_outlined)),
               ),
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Icon(Icons.card_travel),
-              )
+              InkWell(
+                onTap: () {
+                  Provider.of<MenusProvider>(context, listen: false)
+                      .listhistory();
+                  print(Provider.of<MenusProvider>(context, listen: false)
+                      .historylist);
+                },
+                child: const Padding(
+                    padding: EdgeInsets.all(10), child: Icon(Icons.circle)),
+              ),
             ],
             toolbarHeight: 120,
             backgroundColor: Theme.of(context).primaryColor,
@@ -45,7 +54,7 @@ class CafeDetailScreen extends StatelessWidget {
                   cafe.cafeName,
                   style: const TextStyle(color: Colors.white),
                 ),
-                const Text('Username',
+                Text('$name',
                     style: TextStyle(color: Colors.white, fontSize: 12)),
               ],
             )),

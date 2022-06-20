@@ -4,13 +4,11 @@ import 'dart:async';
 
 import 'dart:io';
 
-import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
 
 final db = FirebaseFirestore.instance;
 
@@ -86,7 +84,7 @@ class MenusProvider extends ChangeNotifier {
   List tempList = [];
   File? pickedImage;
 
-  MenusProvider(this.userId, this.authToken, this._listOfMeals);
+  MenusProvider(this.authToken, this.userId, this._listOfMeals);
 
   void addDataToTemop(String category) {
     if (tempList.contains(category)) {
@@ -134,14 +132,9 @@ class MenusProvider extends ChangeNotifier {
   String? cafeName;
 
   List<String> _historyOrder = [];
-  List<Menu> _historylist = [];
-  void history() {
-    for (var i = 1; i < 2; i++) {
-      _historylist.add(
-          _listOfMeals.firstWhere((element) => _historyOrder[1] == element.id));
-      // print(_historyOrder[1]);
-    }
-  }
+  List<dynamic> _historylist = [];
+  List<dynamic> get historylist => _historylist;
+  void listhistory() async {}
 
   Future<void> fetchAndSetProduct() async {
     try {
@@ -152,6 +145,13 @@ class MenusProvider extends ChangeNotifier {
       final response = await snap;
       final extractedData = response.docs.map((e) => e);
 
+      final value = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      _historylist = await value.data()!['isFavorite'];
+
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(
             id: menuData.id,
@@ -159,17 +159,12 @@ class MenusProvider extends ChangeNotifier {
             imageUrl: menuData['imageUrl'],
             price: menuData['price'],
             description: menuData['description'],
-            isFavorite: menuData['isFavorite'],
-            // favoriteData == null
-            //     ? false
-            //     : favoriteData[menuData.id] ?? false,
+            isFavorite: _historylist.contains(menuData.id) ? true : false,
             categories: menuData['categories']));
-        print(menuData['categories']);
       });
 
       _listOfMeals = loadedMenu;
       notifyListeners();
-      print('done menu list');
     } catch (error) {
       throw error;
     }

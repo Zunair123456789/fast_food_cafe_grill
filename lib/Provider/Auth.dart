@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth extends ChangeNotifier {
+  String? _fname;
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
@@ -35,10 +36,18 @@ class Auth extends ChangeNotifier {
     return _userId;
   }
 
+  String? get fname {
+    return _fname;
+  }
+
+  void setname(String name) {
+    _fname = name;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     var url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyCv7cIfyVohYcyxa930y8DXw8yBt55hOuA';
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyDDbiVc9hc_HqimQcNztAzoFvvquw21axc';
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -47,6 +56,7 @@ class Auth extends ChangeNotifier {
         ),
       );
       final responseData = json.decode(response.body);
+
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
@@ -54,9 +64,23 @@ class Auth extends ChangeNotifier {
       _userId = responseData['localId'];
       _expiryDate = DateTime.now()
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
+
       if (urlSegment == 'signUp') {
         final db = FirebaseFirestore.instance.collection('users').doc(userId);
-        await db.set({'email': email});
+        await db.set({'email': email, 'fname': _fname});
+      }
+
+      if (urlSegment == 'signInWithPassword') {
+        final snap = FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .snapshots();
+        // snap.firstWhere((element) => _fname = element['fname']);
+
+        snap.forEach((element) {
+          _fname = element['fname'];
+        }).then((value) => 'Print done');
+        await snap.first;
       }
       autoLogout();
       notifyListeners();
@@ -65,7 +89,9 @@ class Auth extends ChangeNotifier {
         'token': _token,
         'userId': _userId,
         'expiryDate': _expiryDate!.toIso8601String(),
+        'fname': _fname,
       });
+
       prefs.setString('userData', userData);
     } catch (error) {
       rethrow;
@@ -90,7 +116,9 @@ class Auth extends ChangeNotifier {
     }
     _token = extractedUserDate['token'].toString();
     _userId = extractedUserDate['userId'].toString();
+    _fname = extractedUserDate['fname'].toString();
     _expiryDate = expiryDate;
+
     notifyListeners();
     // Timer(Duration(seconds: 15), () {});
     return true;
@@ -108,6 +136,7 @@ class Auth extends ChangeNotifier {
     _token = null;
     _expiryDate = null;
     _userId = null;
+    _fname = null;
     if (_authTimer != null) {
       _authTimer!.cancel();
       _authTimer = null;

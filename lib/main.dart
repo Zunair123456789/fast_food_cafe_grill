@@ -76,17 +76,16 @@ class MyApp extends StatelessWidget {
               fontSize: 18,
             )),
       ),
-      home: NavBar(),
-      // Consumer<Auth>(
-      //     builder: (ctx, auth, _) => auth.isAuth
-      //         ? const NavBar()
-      //         : FutureBuilder(
-      //             future: auth.tryAutoLogin(),
-      //             builder: (ctx, authResultSnapshot) =>
-      //                 authResultSnapshot.connectionState ==
-      //                         ConnectionState.waiting
-      //                     ? const SplashScreen()
-      //                     : const IntroScreen())),
+      home: Consumer<Auth>(
+          builder: (ctx, auth, _) => auth.isAuth
+              ? const NavBar()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? const SplashScreen()
+                          : const IntroScreen())),
       //  MenuUpdateScreen(),
       // const IntroScreen(),
       routes: {

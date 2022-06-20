@@ -67,7 +67,8 @@ class MenuTile extends StatelessWidget {
                           right: 10,
                           child: InkWell(
                               onTap: () {
-                                product.toggleFavoriteStatus(cafeData.cafeName);
+                                product.toggleFavoriteStatus(
+                                    cafeData.cafeName, auth.userId.toString());
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(

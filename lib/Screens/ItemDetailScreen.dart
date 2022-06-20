@@ -129,8 +129,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                listItem
-                                    .toggleFavoriteStatus(cafeData.cafeName);
+                                listItem.toggleFavoriteStatus(
+                                    cafeData.cafeName, auth.userId.toString());
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(

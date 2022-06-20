@@ -58,7 +58,6 @@ class Cafe extends ChangeNotifier {
         ));
         _listOfCafes = loadedCafes;
         notifyListeners();
-        print('done cafe list');
       });
     } catch (e) {
       rethrow;

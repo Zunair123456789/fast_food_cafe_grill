@@ -2,6 +2,7 @@ import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Screens/CafeUpdateScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/Location_Map.dart';
 import 'package:fast_food_cafe_grill/Screens/MenuUpdateScreen.dart';
+import 'package:fast_food_cafe_grill/Screens/NumberAuth.dart';
 import 'package:fast_food_cafe_grill/Screens/OrderScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/ContactUs.dart';
 import 'package:fast_food_cafe_grill/Screens/PrivacyPolicy.dart';
@@ -62,6 +63,23 @@ class MoreScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => const ContactUS()));
+              },
+            ),
+            const Divider(
+              height: 1,
+            ),
+            InkWell(
+              child: const ListTile(
+                leading: Icon(Icons.phone),
+                title: Text(
+                  'Number Authentication',
+                  style: textStyle,
+                ),
+                trailing: Icon(Icons.navigate_next),
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const NumberAuth()));
               },
             ),
             const Divider(
@@ -133,15 +151,6 @@ class MoreScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // const Divider(
-            //   height: 1,
-            // ),
-            // const ListTile(
-            //   title: Text(
-            //     'Terms and Conditions',
-            //     style: textStyle,
-            //   ),
-            // ),
             const Divider(
               height: 1,
             ),
