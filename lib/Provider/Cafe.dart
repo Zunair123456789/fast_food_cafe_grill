@@ -100,6 +100,11 @@ class Cafe extends ChangeNotifier {
     }
   }
 
+  void clear() {
+    _listOfCafes.clear();
+    notifyListeners();
+  }
+
   void deleteCafeItem(String cafeId, String cafeName) {
     final ref = FirebaseStorage.instance
         .ref()

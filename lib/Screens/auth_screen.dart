@@ -2,10 +2,11 @@
 
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/models/http_exception.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-enum AuthMode { Signup, Login }
+enum AuthMode { Signup, Login, phoneVerified }
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
@@ -36,7 +37,6 @@ class AuthScreen extends StatelessWidget {
             height: deviceSize.height * 0.5,
             color: Theme.of(context).primaryColor,
           ),
-          // Container(),
           SingleChildScrollView(
             child: Container(
               height: deviceSize.height,
@@ -182,6 +182,13 @@ class _AuthCardState extends State<AuthCard> {
   }
 
   void _switchAuthMode() {
+    setState(() {
+      _authData = {
+        'fname': '',
+        'email': '',
+        'password': '',
+      };
+    });
     if (_authMode == AuthMode.Login) {
       setState(() {
         _authMode = AuthMode.Signup;
@@ -266,10 +273,16 @@ class _AuthCardState extends State<AuthCard> {
                     height: 20,
                   ),
                 if (_authMode == AuthMode.Login)
-                  Text(
-                    'Don\'t Remember your Password?',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                  InkWell(
+                    onTap: () {
+                      FirebaseAuth.instance.sendPasswordResetEmail(
+                          email: 'aliahsan786211@gmail.com');
+                    },
+                    child: Text(
+                      'Don\'t Remember your Password?',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 if (_authMode == AuthMode.Signup)
@@ -305,14 +318,20 @@ class _AuthCardState extends State<AuthCard> {
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                   ),
-                FlatButton(
-                  child: Text(
-                      '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
-                  onPressed: _switchAuthMode,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Don\'t have an account?'),
+                    FlatButton(
+                      child: Text(
+                          '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+                      onPressed: _switchAuthMode,
+                      // padding: const EdgeInsets.symmetric(
+                      //     horizontal: 30.0, vertical: 4),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      textColor: Theme.of(context).primaryColor,
+                    ),
+                  ],
                 ),
               ],
             ),

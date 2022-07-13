@@ -5,6 +5,7 @@ import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:fast_food_cafe_grill/Screens/EditMenuScreen.dart';
 import 'package:fast_food_cafe_grill/Widget/cart_item.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -117,6 +118,31 @@ class _OrderButtonState extends State<OrderButton> {
                       ErrorDialog('Cafe Not Select',
                           'Please first select any cafe from the home screen');
                     }
+                    final phoneCheck =
+                        Provider.of<Auth>(context, listen: false).phone;
+                    final locatCheck =
+                        Provider.of<Auth>(context, listen: false).locationPoint;
+                    if (phoneCheck == null || locatCheck == null) {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Please add cell number or location in more Screen",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                      return;
+                    }
+                    //  else if (phoneCheck == null) {
+                    //   ErrorDialog('Cell Phone & Location',
+                    //       'Please add your cell phone number  to more Screen');
+                    //   return;
+                    // } else if (locatCheck == null) {
+                    //   ErrorDialog('Location',
+                    //       'Please add your Location  to more Screen');
+                    //   return;
+                    // }
 
                     setState(() {
                       _isLoading = true;

@@ -1,9 +1,7 @@
 import 'package:fast_food_cafe_grill/NavBar.dart';
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
-import 'package:fast_food_cafe_grill/Screens/Location_Map.dart';
 import 'package:fast_food_cafe_grill/Screens/SplashScreen.dart';
-import 'package:fast_food_cafe_grill/Screens/auth_screen.dart';
 import 'package:fast_food_cafe_grill/StartScreens/IntroScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

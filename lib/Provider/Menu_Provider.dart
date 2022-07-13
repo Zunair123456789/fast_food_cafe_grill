@@ -150,7 +150,7 @@ class MenusProvider extends ChangeNotifier {
           .doc(userId)
           .get();
 
-      _historylist = await value.data()!['isFavorite'];
+      _historylist = await value.data()!['isFavorite'] ?? ['false'];
 
       extractedData.forEach((menuData) {
         loadedMenu.add(Menu(
@@ -270,6 +270,11 @@ class MenusProvider extends ChangeNotifier {
       // notifyListeners();
     });
     _listOfMeals.removeAt(existingProductIndex);
+    notifyListeners();
+  }
+
+  void clear() {
+    _listOfMeals.clear();
     notifyListeners();
   }
 }

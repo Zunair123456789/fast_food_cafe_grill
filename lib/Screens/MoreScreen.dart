@@ -36,10 +36,15 @@ class MoreScreen extends StatelessWidget {
               height: 5,
             ),
             InkWell(
-              child: const ListTile(
+              child: ListTile(
                   leading: Icon(Icons.location_on),
                   title: Text(
-                    'Store Location',
+                    auth.locationPoint == null
+                        ? 'Store Location'
+                        : Provider.of<Auth>(context, listen: false)
+                            .placemarks![0]
+                            .country
+                            .toString(),
                     style: textStyle,
                   ),
                   trailing: Icon(Icons.navigate_next)),
@@ -69,10 +74,10 @@ class MoreScreen extends StatelessWidget {
               height: 1,
             ),
             InkWell(
-              child: const ListTile(
+              child: ListTile(
                 leading: Icon(Icons.phone),
                 title: Text(
-                  'Number Authentication',
+                  auth.phone == null ? 'add Number' : auth.phone.toString(),
                   style: textStyle,
                 ),
                 trailing: Icon(Icons.navigate_next),

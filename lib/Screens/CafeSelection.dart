@@ -72,7 +72,7 @@ class _CafeSelectionState extends State<CafeSelection> {
                   'Home',
                   style: TextStyle(color: Colors.white),
                 ),
-                Text('$name',
+                Text(name ?? '',
                     style: const TextStyle(color: Colors.white, fontSize: 12)),
               ],
             )),

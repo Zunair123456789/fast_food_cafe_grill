@@ -1,7 +1,10 @@
+import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart' as loc;
 // import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class LocationMap extends StatefulWidget {
   const LocationMap({Key? key}) : super(key: key);
@@ -27,6 +30,8 @@ class _LocationMapState extends State<LocationMap> {
     super.dispose();
   }
 
+  LatLng? postion;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +39,34 @@ class _LocationMapState extends State<LocationMap> {
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Location'),
         actions: [
+          TextButton(
+              onPressed: () async {
+                if (_liveLocation == null) {
+                  Fluttertoast.showToast(
+                      msg: "Please select your live location",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                } else {
+                  await Provider.of<Auth>(context, listen: false)
+                      .locationToFireStore(postion as LatLng);
+                  Fluttertoast.showToast(
+                      msg: "Location updated",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
+              },
+              child: const Text(
+                'Add to Account',
+                style: TextStyle(color: Colors.white),
+              )),
           if (_origin != null)
             TextButton(
               onPressed: () => _googleMapController!.animateCamera(
@@ -114,13 +147,13 @@ class _LocationMapState extends State<LocationMap> {
     } on Exception {
       currentLocation = null;
     }
-    final postion = LatLng(currentLocation!.latitude!.toDouble(),
+    postion = LatLng(currentLocation!.latitude!.toDouble(),
         currentLocation.longitude!.toDouble());
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0,
-          target: postion,
+          target: postion as LatLng,
           zoom: 17.5,
         ),
       ),
@@ -131,7 +164,7 @@ class _LocationMapState extends State<LocationMap> {
         infoWindow: const InfoWindow(title: 'Live Location'),
         icon:
             BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
-        position: postion,
+        position: postion as LatLng,
       );
     });
   }

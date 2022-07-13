@@ -1,6 +1,9 @@
+import 'package:fast_food_cafe_grill/Provider/Auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class NumberAuth extends StatefulWidget {
   const NumberAuth({Key? key}) : super(key: key);
@@ -10,8 +13,7 @@ class NumberAuth extends StatefulWidget {
 }
 
 class _NumberAuthState extends State<NumberAuth> {
-  TextEditingController phoneController =
-      TextEditingController(text: "+923127853916");
+  TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -24,7 +26,10 @@ class _NumberAuthState extends State<NumberAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Number Authentication"),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text(
+          "Number Authentication",
+        ),
       ),
       body: Container(
         margin: EdgeInsets.all(10),
@@ -35,6 +40,7 @@ class _NumberAuthState extends State<NumberAuth> {
               controller: phoneController,
               decoration: const InputDecoration(labelText: "Phone number"),
               keyboardType: TextInputType.phone,
+              style: TextStyle(decorationColor: Theme.of(context).primaryColor),
             ),
             Visibility(
               child: TextField(
@@ -48,6 +54,8 @@ class _NumberAuthState extends State<NumberAuth> {
               height: 10,
             ),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor),
                 onPressed: () {
                   if (otpVisibility) {
                     verifyOTP();
@@ -55,7 +63,9 @@ class _NumberAuthState extends State<NumberAuth> {
                     loginWithPhone();
                   }
                 },
-                child: Text(otpVisibility ? "Verify" : "Login")),
+                child: Text(
+                  otpVisibility ? "Verify" : "Login",
+                )),
           ],
         ),
       ),
@@ -66,9 +76,7 @@ class _NumberAuthState extends State<NumberAuth> {
     auth.verifyPhoneNumber(
       phoneNumber: phoneController.text,
       verificationCompleted: (PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential).then((value) {
-          print("You are logged in successfully");
-        });
+        print('number add');
       },
       verificationFailed: (FirebaseAuthException e) {
         print(e.message);
@@ -87,15 +95,18 @@ class _NumberAuthState extends State<NumberAuth> {
         verificationId: verificationID, smsCode: otpController.text);
 
     await auth.signInWithCredential(credential).then((value) {
-      print("You are logged in successfully");
+      Provider.of<Auth>(context, listen: false).setPhone(phoneController.text);
       Fluttertoast.showToast(
-          msg: "You are logged in successfully",
+          msg: "Phone Number successfully added",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).primaryColor,
           textColor: Colors.white,
           fontSize: 16.0);
+      Provider.of<Auth>(context, listen: false).phoneToFirestore();
+      FocusScope.of(context).unfocus();
+      Navigator.of(context).pop();
     });
   }
 }
