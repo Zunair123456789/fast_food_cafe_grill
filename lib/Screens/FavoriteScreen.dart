@@ -1,3 +1,4 @@
+import 'package:fast_food_cafe_grill/Provider/Cafe.dart';
 import 'package:fast_food_cafe_grill/Provider/Menu_Provider.dart';
 import 'package:fast_food_cafe_grill/Widget/MenuTile.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,11 @@ class FavoiteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var listItem = Provider.of<MenusProvider>(context).favoriteItem;
+    Provider.of<MenusProvider>(context).favoriteItem();
+    final listItem =
+        Provider.of<MenusProvider>(context, listen: false).favoriteList;
+    final cafe = Provider.of<Cafe>(context);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -22,7 +27,7 @@ class FavoiteScreen extends StatelessWidget {
           itemCount: listItem.length,
           itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
             value: listItem[i],
-            child: MenuTile(),
+            child: cafe.isSelected == '' ? Container() : MenuTile(),
           ),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

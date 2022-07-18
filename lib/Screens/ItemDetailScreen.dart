@@ -26,7 +26,6 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
     final listItem =
         Provider.of<MenusProvider>(context, listen: false).findById(itemId);
     final auth = Provider.of<Auth>(context);
-    final cafeData = Provider.of<Cafe>(context, listen: false).findById();
     // final quantity = Provider.of<Cart>(context).itemQuantity(itemId);
     // final product = Provider.of<Menu>(context, listen: false);
     const textStyle = TextStyle(
@@ -130,7 +129,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                             InkWell(
                               onTap: () {
                                 listItem.toggleFavoriteStatus(
-                                    cafeData.cafeName, auth.userId.toString());
+                                    auth.userId.toString());
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(

@@ -125,8 +125,9 @@ class MenusProvider extends ChangeNotifier {
     return _listOfMeals.firstWhere((pro) => pro.id == id);
   }
 
-  List<Menu> get favoriteItem {
-    return _listOfMeals.where((prod) => prod.isFavorite).toList();
+  List<Menu> favoriteList = [];
+  void favoriteItem() {
+    favoriteList = _listOfMeals.where((prod) => prod.isFavorite).toList();
   }
 
   String? cafeName;

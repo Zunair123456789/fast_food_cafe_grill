@@ -98,36 +98,7 @@ class MoreScreen extends StatelessWidget {
             // const Divider(
             //   height: 1,
             // ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MenuUpdateScreen()));
-              },
-              child: const ListTile(
-                title: Text(
-                  'Menu Edit',
-                  style: textStyle,
-                ),
-              ),
-            ),
-            const Divider(
-              height: 1,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => OrderScreen()));
-              },
-              child: const ListTile(
-                title: Text(
-                  'Order Menu',
-                  style: textStyle,
-                ),
-              ),
-            ),
-            const Divider(
-              height: 1,
-            ),
+
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -143,21 +114,7 @@ class MoreScreen extends StatelessWidget {
             const Divider(
               height: 1,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CafeUpdateScreen()));
-              },
-              child: const ListTile(
-                title: Text(
-                  'Add New Cafe',
-                  style: textStyle,
-                ),
-              ),
-            ),
-            const Divider(
-              height: 1,
-            ),
+
             auth.isAuth
                 ? InkWell(
                     onTap: () {

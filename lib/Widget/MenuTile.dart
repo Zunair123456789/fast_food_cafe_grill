@@ -8,25 +8,18 @@ import 'package:fast_food_cafe_grill/Screens/ItemDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MenuTile extends StatelessWidget {
-  // final String menu;
-  // MenuTile(this.menu);
-  // ignore: use_key_in_widget_constructors
-  // MenuTile(
-  //   this.id,
-  //   this.title,
-  //   this.imageUrl,
-  // );
-  // final String id;
-  // final String title;
-  // final String imageUrl;
+class MenuTile extends StatefulWidget {
+  @override
+  State<MenuTile> createState() => _MenuTileState();
+}
 
+class _MenuTileState extends State<MenuTile> {
+  // final String menu;
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Menu>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
-    final cafeData = Provider.of<Cafe>(context, listen: false).findById();
     return Container(
       margin: const EdgeInsets.all(2),
       child: ClipRRect(
@@ -68,7 +61,7 @@ class MenuTile extends StatelessWidget {
                           child: InkWell(
                               onTap: () {
                                 product.toggleFavoriteStatus(
-                                    cafeData.cafeName, auth.userId.toString());
+                                    auth.userId.toString());
                               },
                               child: Consumer<Menu>(
                                 builder: (ctx, product, _) => Icon(
