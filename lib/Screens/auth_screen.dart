@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names, use_key_in_widget_constructors
 
 import 'package:fast_food_cafe_grill/Provider/Auth.dart';
+import 'package:fast_food_cafe_grill/Screens/Reset_Password.dart';
 import 'package:fast_food_cafe_grill/models/http_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,9 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final image = Image.network(
+        'https://firebasestorage.googleapis.com/v0/b/fast-food-cafe-and-grill.appspot.com/o/extraImages%2Fplaystore-removebg-preview.png?alt=media&token=d4971ab1-1ac7-4682-9f25-60eee7982b7c');
+
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
     return Scaffold(
@@ -50,38 +54,38 @@ class AuthScreen extends StatelessWidget {
                       top: 30,
                     ),
                     child: SizedBox(
-                      height: deviceSize.height * 0.35,
-                      child: Image.network(
-                          'https://firebasestorage.googleapis.com/v0/b/fast-food-cafe-and-grill.appspot.com/o/extraImages%2Fplaystore-removebg-preview.png?alt=media&token=d4971ab1-1ac7-4682-9f25-60eee7982b7c'),
-                      // child: Container(
-                      //   margin: const EdgeInsets.only(bottom: 20.0),
-                      //   padding: const EdgeInsets.symmetric(
-                      //       vertical: 8.0, horizontal: 94.0),
-                      //   transform: Matrix4.rotationZ(-8 * pi / 180)
-                      //     ..translate(-10.0),
-                      //   // ..translate(-10.0),
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(20),
-                      //     color: Colors.deepOrange.shade900,
-                      //     boxShadow: const [
-                      //       BoxShadow(
-                      //         blurRadius: 8,
-                      //         color: Colors.black26,
-                      //         offset: Offset(0, 2),
-                      //       )
-                      //     ],
-                      //   ),
-                      //   child: Text(
-                      //     'FastFood Cafe & Grill ',
-                      //     style: TextStyle(
-                      //       color: Theme.of(context).primaryColor,
-                      //       fontSize: 30,
-                      //       fontFamily: 'Anton',
-                      //       fontWeight: FontWeight.normal,
-                      //     ),
-                      //   ),
-                      // ),
-                    ),
+                        height: deviceSize.height * 0.35,
+                        child: Image.network(
+                            'https://firebasestorage.googleapis.com/v0/b/fast-food-cafe-and-grill.appspot.com/o/extraImages%2Fplaystore-removebg-preview.png?alt=media&token=d4971ab1-1ac7-4682-9f25-60eee7982b7c')
+                        // child: Container(
+                        //   margin: const EdgeInsets.only(bottom: 20.0),
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 8.0, horizontal: 94.0),
+                        //   transform: Matrix4.rotationZ(-8 * pi / 180)
+                        //     ..translate(-10.0),
+                        //   // ..translate(-10.0),
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(20),
+                        //     color: Colors.deepOrange.shade900,
+                        //     boxShadow: const [
+                        //       BoxShadow(
+                        //         blurRadius: 8,
+                        //         color: Colors.black26,
+                        //         offset: Offset(0, 2),
+                        //       )
+                        //     ],
+                        //   ),
+                        //   child: Text(
+                        //     'FastFood Cafe & Grill ',
+                        //     style: TextStyle(
+                        //       color: Theme.of(context).primaryColor,
+                        //       fontSize: 30,
+                        //       fontFamily: 'Anton',
+                        //       fontWeight: FontWeight.normal,
+                        //     ),
+                        //   ),
+                        // ),
+                        ),
                   ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
@@ -161,14 +165,15 @@ class _AuthCardState extends State<AuthCard> {
     } on HttpException catch (error) {
       var errorMassage = 'Authentication failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMassage = 'This email address is already in use.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
+        errorMassage = errorMassage;
+      } else if (error.toString().contains('badly formatted')) {
         errorMassage = 'This is not a valid email address.';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
+      } else if (error.toString().contains('weak-password')) {
         errorMassage = 'This is password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMassage = 'Could not find a user with this email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
+      } else if (error.toString().contains('no user record corresponding')) {
+        errorMassage =
+            'There is no user record corresponding to this email. The user may have been deleted.';
+      } else if (error.toString().contains('password is invalid')) {
         errorMassage = 'This is invalid Password.';
       }
       _showErrorDialog(errorMassage);
@@ -275,8 +280,8 @@ class _AuthCardState extends State<AuthCard> {
                 if (_authMode == AuthMode.Login)
                   InkWell(
                     onTap: () {
-                      FirebaseAuth.instance.sendPasswordResetEmail(
-                          email: 'aliahsan786211@gmail.com');
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ResetPassword()));
                     },
                     child: Text(
                       'Don\'t Remember your Password?',

@@ -17,23 +17,15 @@ class _CafeSelectionState extends State<CafeSelection> {
   var _isLoading = false;
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     if (_init) {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<MenusProvider>(context)
-          .fetchAndSetProduct()
-          .then((value) async {
-        await Provider.of<Cafe>(context, listen: false).fetchListOfCafes().then(
-            (value) => Provider.of<MenusProvider>(context, listen: false)
-                    .fetchAndSetProduct()
-                    .then((value) {
-                  setState(() {
-                    _isLoading = false;
-                  });
-                }));
-      });
+
+      await Provider.of<Cafe>(context, listen: false)
+          .fetchListOfCafes()
+          .then((value) => _isLoading = false);
     }
     _init = false;
 

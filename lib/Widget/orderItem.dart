@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fast_food_cafe_grill/Provider/Orders.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class OrderItems extends StatefulWidget {
   final OrderItem order;
@@ -14,14 +15,24 @@ class OrderItems extends StatefulWidget {
 
 class _OrderItemsState extends State<OrderItems> {
   var _isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
+    // Provider.of<Order>(context, listen: false)
+    //     .findUserByUserid(widget.order.user);
+
     return Card(
       margin: const EdgeInsets.all(10),
       child: Column(
         children: [
           ListTile(
-            title: Text('Rs. ${widget.order.amount}'),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('${widget.order.user.userName}'),
+                Text('Rs. ${widget.order.amount}')
+              ],
+            ),
             subtitle: Text(
               DateFormat('dd/MM/yyyy  hh:mm').format(widget.order.dateTime),
               style: const TextStyle(color: Colors.black54),

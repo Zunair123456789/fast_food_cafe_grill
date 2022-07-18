@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fast_food_cafe_grill/Provider/Menu.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +9,17 @@ class CafeItem extends ChangeNotifier {
   final String cafeName;
   final String cafeDiscription;
   final String cafeImageUrl;
-  CafeItem({
-    required this.cafeId,
-    required this.cafeName,
-    required this.cafeDiscription,
-    required this.cafeImageUrl,
-  });
+  final String cafephone;
+  final String cafeMail;
+  final String cafefacebook;
+  CafeItem(
+      {required this.cafeId,
+      required this.cafeName,
+      required this.cafeDiscription,
+      required this.cafeImageUrl,
+      required this.cafephone,
+      required this.cafeMail,
+      required this.cafefacebook});
 }
 
 class Cafe extends ChangeNotifier {
@@ -27,6 +31,14 @@ class Cafe extends ChangeNotifier {
 
   String get isSelected {
     return _isSelected;
+  }
+
+  bool cafeSelected() {
+    if (isSelected == '') {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   CafeItem findById() {
@@ -55,6 +67,9 @@ class Cafe extends ChangeNotifier {
           cafeName: cafeData['name'],
           cafeDiscription: cafeData['description'],
           cafeImageUrl: cafeData['imageUrl'],
+          cafephone: cafeData['cafephone'],
+          cafeMail: cafeData['cafeMail'],
+          cafefacebook: cafeData['cafefacebook'],
         ));
         _listOfCafes = loadedCafes;
         notifyListeners();
@@ -83,13 +98,18 @@ class Cafe extends ChangeNotifier {
         'name': cafe.cafeName,
         'imageUrl': imageUrl,
         'description': cafe.cafeDiscription,
+        'cafephone': cafe.cafephone,
+        'cafeMail': cafe.cafeMail,
+        'cafefacebook': cafe.cafefacebook
       });
       final newMenuItem = CafeItem(
-        cafeId: response.id,
-        cafeName: cafe.cafeName,
-        cafeDiscription: cafe.cafeDiscription,
-        cafeImageUrl: imageUrl.toString(),
-      );
+          cafeId: response.id,
+          cafeName: cafe.cafeName,
+          cafeDiscription: cafe.cafeDiscription,
+          cafeImageUrl: imageUrl.toString(),
+          cafephone: cafe.cafephone,
+          cafeMail: cafe.cafeMail,
+          cafefacebook: cafe.cafefacebook);
 
       _listOfCafes.add(newMenuItem);
 

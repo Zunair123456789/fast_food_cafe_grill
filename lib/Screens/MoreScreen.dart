@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // final loc = Provider.of<Auth>(context, listen: false).placemarks![0];
     const textStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.normal);
     final auth = Provider.of<Auth>(context, listen: false);
     return Scaffold(
@@ -39,12 +40,10 @@ class MoreScreen extends StatelessWidget {
               child: ListTile(
                   leading: Icon(Icons.location_on),
                   title: Text(
-                    auth.locationPoint == null
-                        ? 'Store Location'
-                        : Provider.of<Auth>(context, listen: false)
-                            .placemarks![0]
-                            .country
-                            .toString(),
+                    // auth.locationPoint == null
+                    //     ?
+                    'Store Location',
+                    // : '${loc.country},${loc.administrativeArea},${loc.locality},${loc.street}',
                     style: textStyle,
                   ),
                   trailing: Icon(Icons.navigate_next)),
@@ -66,8 +65,8 @@ class MoreScreen extends StatelessWidget {
                 trailing: Icon(Icons.navigate_next),
               ),
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const ContactUS()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => ContactUS()));
               },
             ),
             const Divider(
@@ -90,15 +89,15 @@ class MoreScreen extends StatelessWidget {
             const Divider(
               height: 1,
             ),
-            const ListTile(
-              title: Text(
-                'About Us',
-                style: textStyle,
-              ),
-            ),
-            const Divider(
-              height: 1,
-            ),
+            // const ListTile(
+            //   title: Text(
+            //     'About Us',
+            //     style: textStyle,
+            //   ),
+            // ),
+            // const Divider(
+            //   height: 1,
+            // ),
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(

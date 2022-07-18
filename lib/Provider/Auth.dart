@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:fast_food_cafe_grill/models/http_exception.dart';
 import 'package:flutter/material.dart';
@@ -65,31 +66,43 @@ class Auth extends ChangeNotifier {
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
-    var url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyDDbiVc9hc_HqimQcNztAzoFvvquw21axc';
+    // var url =
+    //     'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyDDbiVc9hc_HqimQcNztAzoFvvquw21axc';
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: json.encode(
-          {'email': email, 'password': password, 'returnSecureToken': true},
-        ),
-      );
-      final responseData = json.decode(response.body);
-
-      if (responseData['error'] != null) {
-        throw HttpException(responseData['error']['message']);
-      }
-      _token = responseData['idToken'];
-      _userId = responseData['localId'];
-      _expiryDate = DateTime.now()
-          .add(Duration(seconds: int.parse(responseData['expiresIn'])));
-
       if (urlSegment == 'signUp') {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        _userId = userCredential.user!.uid;
+        _token = userCredential.user!.refreshToken;
+        _expiryDate = DateTime.now().add(const Duration(days: 10));
         final db = FirebaseFirestore.instance.collection('users').doc(userId);
-        await db.set({'email': email, 'fname': _fname});
+        await db.set({'email': email, 'fname': _fname, 'type': 'user'});
       }
+      // final response = await http.post(
+      //   Uri.parse(url),
+      //   body: json.encode(
+      //     {'email': email, 'password': password, 'returnSecureToken': true},
+      //   ),
+      // );
+      // final responseData = json.decode(response.body);
+
+      // if (responseData['error'] != null) {
+      //   throw HttpException(responseData['error']['message']);
+      // }
+      // _token = responseData['idToken'];
+      // _userId = responseData['localId'];
+      // _expiryDate = DateTime.now()
+      //     .add(Duration(seconds: int.parse(responseData['expiresIn'])));
 
       if (urlSegment == 'signInWithPassword') {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        _userId = userCredential.user!.uid;
+
+        _token = await userCredential.user!.getIdToken();
+        print(_token);
+        _expiryDate = DateTime.now().add(const Duration(days: 10));
+
         GeoPoint? some;
         final snap = FirebaseFirestore.instance
             .collection('users')
@@ -127,7 +140,9 @@ class Auth extends ChangeNotifier {
 
       prefs.setString('userData', userData);
     } catch (error) {
-      rethrow;
+      print(error.toString());
+
+      throw HttpException(error.toString());
     }
   }
 
@@ -151,9 +166,6 @@ class Auth extends ChangeNotifier {
     if (_location != null) {
       placemarks = await placemarkFromCoordinates(
           _location!.latitude, _location!.longitude);
-      final p = placemarks![0];
-      final address = '${p.name},${p.locality},${p.country},${p.street}';
-      print(address);
     }
     notifyListeners();
   }
@@ -215,6 +227,7 @@ class Auth extends ChangeNotifier {
   }
 
   Future<void> logout() async {
+    // FirebaseAuth.instance.signOut();
     _token = null;
     _expiryDate = null;
     _userId = null;

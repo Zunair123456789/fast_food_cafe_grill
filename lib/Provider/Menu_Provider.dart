@@ -134,7 +134,6 @@ class MenusProvider extends ChangeNotifier {
   List<String> _historyOrder = [];
   List<dynamic> _historylist = [];
   List<dynamic> get historylist => _historylist;
-  void listhistory() async {}
 
   Future<void> fetchAndSetProduct() async {
     try {

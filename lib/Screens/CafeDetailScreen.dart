@@ -32,16 +32,6 @@ class CafeDetailScreen extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Icon(Icons.change_circle_outlined)),
               ),
-              InkWell(
-                onTap: () {
-                  Provider.of<MenusProvider>(context, listen: false)
-                      .listhistory();
-                  print(Provider.of<MenusProvider>(context, listen: false)
-                      .historylist);
-                },
-                child: const Padding(
-                    padding: EdgeInsets.all(10), child: Icon(Icons.circle)),
-              ),
             ],
             toolbarHeight: 120,
             backgroundColor: Theme.of(context).primaryColor,
@@ -55,7 +45,7 @@ class CafeDetailScreen extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 ),
                 Text('$name',
-                    style: TextStyle(color: Colors.white, fontSize: 12)),
+                    style: const TextStyle(color: Colors.white, fontSize: 12)),
               ],
             )),
         body: Container(
@@ -73,7 +63,7 @@ class CafeDetailScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                     )),
                 Container(
-                    margin: EdgeInsets.only(top: 30, left: 10, right: 10),
+                    margin: const EdgeInsets.only(top: 30, left: 10, right: 10),
                     child: Text(
                       cafe.cafeDiscription,
                       maxLines: 6,

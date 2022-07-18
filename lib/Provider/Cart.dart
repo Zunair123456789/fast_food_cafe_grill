@@ -13,7 +13,8 @@ class CartItem {
       {required this.id,
       required this.title,
       required this.quantity,
-      required this.price});
+      required this.price,
+      user});
 }
 
 class Cart extends ChangeNotifier {

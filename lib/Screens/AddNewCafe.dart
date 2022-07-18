@@ -23,6 +23,9 @@ class _AddNewCafeState extends State<AddNewCafe> {
     cafeName: '',
     cafeDiscription: '',
     cafeImageUrl: '',
+    cafephone: '',
+    cafeMail: '',
+    cafefacebook: '',
   );
 
   Future<void> _saveForm() async {
@@ -111,11 +114,95 @@ class _AddNewCafeState extends State<AddNewCafe> {
                             cafeName: value.toString(),
                             cafeDiscription: _editedMenu.cafeDiscription,
                             cafeImageUrl: _editedMenu.cafeImageUrl,
+                            cafeMail: _editedMenu.cafeMail,
+                            cafefacebook: _editedMenu.cafephone,
+                            cafephone: _editedMenu.cafephone,
                           );
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please provide a valid Title';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                            labelText: 'Cafe phone', prefixText: '+92'),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          Focus.of(context).requestFocus(_discriptionFocusNode);
+                        },
+                        onSaved: (value) {
+                          _editedMenu = CafeItem(
+                            cafeId: _editedMenu.cafeId,
+                            cafeName: _editedMenu.cafeName,
+                            cafeDiscription: _editedMenu.cafeDiscription,
+                            cafeImageUrl: _editedMenu.cafeImageUrl,
+                            cafeMail: _editedMenu.cafeMail,
+                            cafefacebook: _editedMenu.cafephone,
+                            cafephone: value.toString(),
+                          );
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please provide a valid Title';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      TextFormField(
+                        decoration:
+                            const InputDecoration(labelText: 'Facebook Id'),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          Focus.of(context).requestFocus(_discriptionFocusNode);
+                        },
+                        onSaved: (value) {
+                          _editedMenu = CafeItem(
+                            cafeId: _editedMenu.cafeId,
+                            cafeName: _editedMenu.cafeName,
+                            cafeDiscription: _editedMenu.cafeDiscription,
+                            cafeImageUrl: _editedMenu.cafeImageUrl,
+                            cafeMail: _editedMenu.cafeMail,
+                            cafefacebook: value.toString(),
+                            cafephone: _editedMenu.cafephone,
+                          );
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please provide a valid phone number';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(labelText: 'Email'),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          Focus.of(context).requestFocus(_discriptionFocusNode);
+                        },
+                        onSaved: (value) {
+                          _editedMenu = CafeItem(
+                            cafeId: _editedMenu.cafeId,
+                            cafeName: _editedMenu.cafeName,
+                            cafeDiscription: _editedMenu.cafeDiscription,
+                            cafeImageUrl: _editedMenu.cafeImageUrl,
+                            cafeMail: value.toString(),
+                            cafefacebook: _editedMenu.cafefacebook,
+                            cafephone: _editedMenu.cafephone,
+                          );
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please provide a valid email';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Please provide a valid email';
                           } else {
                             return null;
                           }
@@ -134,6 +221,9 @@ class _AddNewCafeState extends State<AddNewCafe> {
                             cafeName: _editedMenu.cafeName,
                             cafeDiscription: value.toString(),
                             cafeImageUrl: _editedMenu.cafeImageUrl,
+                            cafeMail: _editedMenu.cafeMail,
+                            cafefacebook: _editedMenu.cafephone,
+                            cafephone: _editedMenu.cafephone,
                           );
                         },
                         validator: (value) {
