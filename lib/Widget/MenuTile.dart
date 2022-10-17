@@ -45,15 +45,20 @@ class _MenuTileState extends State<MenuTile> {
                   Stack(
                     children: [
                       GridTile(
-                          child: Container(
-                        height: 120,
-                        width: 200,
-                        child: Image.network(
-                          product.imageUrl,
-                          fit: BoxFit.cover,
-                          height: 120,
-                          width: 200,
-                        ),
+                          child: Hero(
+                        tag: product.id,
+                        child: Container(
+                            height: 120,
+                            width: 200,
+                            child: FadeInImage(
+                              placeholder: AssetImage('images/waiting.png'),
+                              image: NetworkImage(
+                                product.imageUrl,
+                              ),
+                              fit: BoxFit.cover,
+                              height: 120,
+                              width: 200,
+                            )),
                       )),
                       Positioned(
                           top: 10,
