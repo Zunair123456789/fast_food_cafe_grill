@@ -5,7 +5,6 @@ import 'package:fast_food_cafe_grill/Screens/SplashScreen.dart';
 import 'package:fast_food_cafe_grill/Screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
-import 'package:intro_slider/slide_object.dart';
 import 'package:provider/provider.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -16,14 +15,14 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  List<Slide> slides = [];
+  List<ContentConfig> slides = [];
 
   @override
   void initState() {
     super.initState();
 
     slides.add(
-      Slide(
+      ContentConfig(
         title: "Discover Place",
         description:
             "We make it simple to find the food you crave. Enter your address and let",
@@ -32,7 +31,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     );
     slides.add(
-      Slide(
+      ContentConfig(
         title: "Pick your food ",
         description:
             "We make food ordering fast, simple and free - no matter if you order",
@@ -41,11 +40,11 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     );
     slides.add(
-      Slide(
+      const ContentConfig(
         title: "Choose A Tasty ",
         description: "Avoid the lines and have Fast food delivered by us",
         pathImage: "images/4.png",
-        backgroundColor: const Color(0xFF3F51B5),
+        backgroundColor: Color(0xFF3F51B5),
       ),
     );
   }
@@ -70,7 +69,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return IntroSlider(
-      slides: slides,
+      listContentConfig: slides,
       onDonePress: onDonePress,
     );
   }

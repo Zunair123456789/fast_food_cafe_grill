@@ -19,6 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   if (defaultTargetPlatform == TargetPlatform.android) {
+    // ignore: deprecated_member_use
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
   runApp(
